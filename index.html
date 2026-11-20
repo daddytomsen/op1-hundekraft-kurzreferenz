@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f1011">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="OP-1 Referenz">
+<title>OP-1 hundekraft – Kurzreferenz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --alu:#d5d8da;--alu-hi:#e6e8e9;--alu-lo:#b9bdc1;
+  --panel:#eceeef;--line:#c3c7ca;
+  --ink:#15171a;--mut:#596068;
+  --disp:#0f1011;--disp-tx:#f1f2f2;--disp-mut:#8c9299;
+  --b:#2b6fe3;--g:#2aa457;--w:#fbfbfa;--o:#f2601f;
+  --cap:#f7f7f5;--cap-edge:#9a9fa4;
+  --ease:cubic-bezier(.22,.9,.3,1);
+  --f:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
+}
+*{box-sizing:border-box}
+html{-webkit-tap-highlight-color:transparent;-webkit-text-size-adjust:100%;overscroll-behavior:none;background:var(--alu)}
+body{margin:0;color:var(--ink);font:400 16px/1.45 var(--f);font-stretch:100%;
+  background:linear-gradient(180deg,var(--alu-hi),var(--alu) 320px) fixed;min-height:100dvh}
+button,input{font:inherit;color:inherit}
+button,a,[role=button]{touch-action:manipulation}
+button,[role=button],kbd{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+:focus-visible{outline:3px solid var(--o);outline-offset:2px}
+
+/* ---- Display: der schwarze Bildschirm oben ---- */
+.display{position:sticky;top:0;z-index:5;background:var(--disp);color:var(--disp-tx);
+  padding:calc(10px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 14px calc(16px + env(safe-area-inset-left));
+  border-radius:0 0 22px 22px;box-shadow:0 1px 0 #fff8 inset,0 10px 24px -14px #000a}
+.brand{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.brand b{font-weight:700;font-stretch:78%;font-size:19px;letter-spacing:.3px}
+.brand span{color:var(--disp-mut);font-size:13px;margin-left:8px;font-weight:400;font-stretch:100%;letter-spacing:0}
+.dots{display:flex;gap:7px}
+.dots i{width:11px;height:11px;border-radius:50%;display:block}
+.dots i:nth-child(1){background:var(--b)}.dots i:nth-child(2){background:var(--g)}.dots i:nth-child(3){background:var(--w)}.dots i:nth-child(4){background:var(--o)}
+.search{position:relative}
+.search svg{position:absolute;left:13px;top:13px;width:18px;height:18px;stroke:var(--disp-mut);fill:none;stroke-width:2;stroke-linecap:round;pointer-events:none}
+.search input{width:100%;height:44px;border-radius:12px;border:1.5px solid #2c2f33;background:#1a1c1e;color:var(--disp-tx);padding:0 42px 0 40px;font-size:16px;outline:none;-webkit-appearance:none;appearance:none}
+.search input::placeholder{color:var(--disp-mut)}
+.search input::-webkit-search-cancel-button{display:none}
+.search input:focus{border-color:var(--o)}
+.search button{position:absolute;right:4px;top:4px;width:36px;height:36px;border:0;background:none;color:var(--disp-mut);font-size:17px}
+
+main{padding:18px calc(16px + env(safe-area-inset-right)) calc(108px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));max-width:720px;margin:0 auto}
+.lead{font-weight:700;font-stretch:76%;font-size:40px;line-height:1;letter-spacing:-.4px;margin:6px 0 6px}
+.sub{color:var(--mut);margin:0 0 18px;max-width:34em}
+h2{font-size:15px;font-weight:700;margin:24px 2px 9px;display:flex;justify-content:space-between;align-items:baseline}
+h2 small{font-weight:400;color:var(--mut);font-size:13px}
+
+/* ---- Tastenkappen ---- */
+kbd{display:inline-flex;align-items:center;justify-content:center;min-width:30px;height:28px;padding:0 8px;margin:2px 1px;
+  font:600 13px/1 var(--f);font-stretch:88%;color:var(--ink);background:linear-gradient(180deg,#fff,var(--cap));
+  border-radius:7px;box-shadow:0 0 0 1px var(--cap-edge),0 2.5px 0 0 var(--cap-edge);white-space:nowrap;vertical-align:middle;position:relative;top:-1px}
+kbd.sh{background:linear-gradient(180deg,#3b4046,#24272b);color:#fff;box-shadow:0 0 0 1px #121416,0 2.5px 0 0 #121416}
+kbd.rec{color:#d8361c}
+.display kbd,.screen kbd{box-shadow:0 0 0 1px #000,0 2.5px 0 0 #3a3e43}
+
+/* ---- Encoder-Knopf ---- */
+.knob{--c:var(--w);flex:0 0 auto;width:15px;height:15px;border-radius:50%;display:inline-block;vertical-align:-2px;
+  background:radial-gradient(circle at 50% 35%,#fff7 0 18%,transparent 19%),var(--c);box-shadow:0 0 0 1.5px #0003 inset,0 1px 1.5px #0005}
+.knob.b{--c:var(--b)}.knob.g{--c:var(--g)}.knob.w{--c:var(--w)}.knob.o{--c:var(--o)}
+.enc{white-space:nowrap;font-weight:600}
+.knob.big{width:44px;height:44px;position:relative;background:radial-gradient(circle at 50% 28%,#ffffff70,transparent 58%),var(--c);
+  box-shadow:0 0 0 2px #0002 inset,0 0 0 5px var(--alu-hi),0 0 0 6px var(--line),0 5px 7px -1px #0006}
+.knob.big::after{content:"";position:absolute;left:50%;top:5px;width:3px;height:12px;margin-left:-1.5px;border-radius:2px;background:#0000008c}
+.knob.big.b::after,.knob.big.o::after,.knob.big.g::after{background:#ffffffd9}
+
+/* ---- Listen ---- */
+.list{background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset;overflow:hidden}
+.li{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 6px 12px 14px;min-height:60px;border:0;background:none;
+  border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+.li:first-child{border-top:0}
+.li:active{background:#dfe2e4}
+.li .tx{flex:1;min-width:0}
+.li b{display:block;font-size:16.5px;font-weight:600;line-height:1.25}
+.li .s{display:block;color:var(--mut);font-size:14px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
+.li .combo{margin-top:5px;line-height:2;color:var(--mut);font-size:14px}
+.li .cat{flex:0 0 auto;color:var(--mut);font-size:12.5px;font-stretch:85%}
+.li .go{flex:0 0 auto;width:30px;text-align:center;color:var(--alu-lo);font-size:22px;line-height:1}
+.star{flex:0 0 auto;width:44px;height:44px;border:0;background:none;display:grid;place-items:center;transition:transform .14s var(--ease)}
+.star svg{width:22px;height:22px;fill:none;stroke:#8b9197;stroke-width:1.8;stroke-linejoin:round}
+.star.on svg{fill:var(--o);stroke:var(--o)}
+.star:active{transform:scale(.82)}
+
+/* ---- Chips als Tasten ---- */
+.keys{display:flex;gap:9px;overflow-x:auto;scrollbar-width:none;margin:0 -16px;padding:3px 16px 8px;scroll-snap-type:x proximity}
+.keys::-webkit-scrollbar{display:none}
+.key{flex:0 0 auto;scroll-snap-align:start;border:0;border-radius:11px;min-height:42px;padding:0 15px;font-weight:600;font-size:14.5px;font-stretch:90%;
+  background:linear-gradient(180deg,#fff,var(--cap));box-shadow:0 0 0 1px var(--cap-edge),0 3px 0 0 var(--cap-edge);transition:transform .1s,box-shadow .1s;margin-bottom:3px}
+.key:active,.key.on{transform:translateY(2px);box-shadow:0 0 0 1px var(--cap-edge),0 1px 0 0 var(--cap-edge)}
+.key.on{background:linear-gradient(180deg,#34383d,#202326);color:#fff;box-shadow:0 0 0 1px #111,0 1px 0 0 #111}
+.key small{font-weight:400;opacity:.6;margin-left:5px}
+
+.empty{color:var(--mut);padding:34px 18px;text-align:center}
+.empty b{display:block;color:var(--ink);font-size:18px;margin-bottom:4px}
+
+/* ---- Tableiste: vier Tasten ---- */
+nav{position:fixed;left:0;right:0;bottom:0;z-index:6;padding:10px calc(12px + env(safe-area-inset-right)) calc(10px + env(safe-area-inset-bottom)) calc(12px + env(safe-area-inset-left));
+  background:linear-gradient(180deg,#d5d8da00,var(--alu) 34%);pointer-events:none}
+nav div{pointer-events:auto;display:grid;grid-template-columns:repeat(4,1fr);gap:8px;max-width:520px;margin:0 auto}
+nav button{border:0;border-radius:13px;height:56px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;font-size:11.5px;font-weight:600;font-stretch:88%;
+  background:linear-gradient(180deg,#fff,var(--cap));box-shadow:0 0 0 1px var(--cap-edge),0 4px 0 0 var(--cap-edge),0 8px 14px -6px #0006;transition:transform .1s,box-shadow .1s;position:relative}
+nav button svg{width:21px;height:21px;fill:none;stroke:currentColor;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+nav button:active,nav button.on{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1px 0 0 var(--cap-edge),0 3px 6px -3px #0005}
+nav button.on::after{content:"";position:absolute;top:7px;right:8px;width:6px;height:6px;border-radius:50%;background:var(--o);box-shadow:0 0 6px var(--o)}
+
+/* ---- Detailblatt ---- */
+#sheet{position:fixed;inset:0;z-index:10;height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
+  background:linear-gradient(180deg,var(--alu-hi),var(--alu) 320px);transform:translateX(102%);transition:transform .32s var(--ease);visibility:hidden}
+#sheet.open{transform:none;visibility:visible}
+.screen{background:var(--disp);color:var(--disp-tx);border-radius:0 0 26px 26px;
+  padding:calc(6px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 22px calc(16px + env(safe-area-inset-left));box-shadow:0 12px 26px -16px #000b}
+.bar{display:flex;align-items:center;justify-content:space-between;margin:0 -8px 10px}
+.bar button{border:0;background:none;height:44px;min-width:44px;padding:0 8px;color:var(--disp-tx);font-size:16px;font-weight:600;display:flex;align-items:center;gap:4px}
+.bar button:active{opacity:.6}
+.bar .star svg{stroke:var(--disp-mut);width:25px;height:25px}
+.bar .star.on svg{stroke:var(--o)}
+.screen .cat{color:var(--disp-mut);font-size:14px}
+.screen h3{font-weight:700;font-stretch:75%;font-size:clamp(40px,13vw,58px);line-height:.95;letter-spacing:-.5px;margin:4px 0 10px;overflow-wrap:anywhere}
+.screen p{margin:0;color:#c9cdd1;font-size:16.5px;max-width:32em}
+.strip{display:flex;gap:6px;margin-top:18px}
+.strip i{height:5px;flex:1;border-radius:3px}
+.strip i:nth-child(1){background:var(--b)}.strip i:nth-child(2){background:var(--g)}.strip i:nth-child(3){background:var(--w)}.strip i:nth-child(4){background:var(--o)}
+.det{padding:6px calc(16px + env(safe-area-inset-right)) calc(40px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));max-width:720px;margin:0 auto}
+.path{background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset;padding:14px 16px;font-size:16px;line-height:2.15}
+.er{display:flex;gap:16px;padding:16px 14px 16px 18px;border-top:1px solid var(--line);align-items:flex-start}
+.er:first-child{border-top:0}
+.er .knob{margin-top:4px}
+.er .b2{flex:1;min-width:0}
+.er .nm{font-weight:700;font-size:17px;font-stretch:88%;line-height:1.2}
+.er p{margin:4px 0 0;font-size:15.5px;line-height:1.4}
+.er p em{font-style:normal;font-weight:600;color:var(--mut);font-size:13px;display:block;margin-top:8px}
+.kr{padding:13px 16px;border-top:1px solid var(--line)}
+.kr:first-child{border-top:0}
+.kr .c{line-height:2}
+.kr .d{display:block;margin-top:2px;font-size:15.5px;line-height:1.4}
+ul.n{margin:0;padding:12px 16px 12px 34px;font-size:15.5px}
+ul.n li{margin:6px 0}
+a.orig{display:flex;align-items:center;justify-content:center;gap:8px;margin-top:22px;height:52px;border-radius:13px;color:var(--ink);text-decoration:none;font-weight:600;
+  background:linear-gradient(180deg,#fff,var(--cap));box-shadow:0 0 0 1px var(--cap-edge),0 4px 0 0 var(--cap-edge);transition:transform .1s,box-shadow .1s}
+a.orig:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1px 0 0 var(--cap-edge)}
+.foot{color:var(--mut);font-size:13px;margin:26px 2px 0;line-height:1.5}
+.foot a{color:inherit}
+@media (hover:hover) and (pointer:fine){.li:hover{background:#e3e6e8}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<header class="display">
+  <div class="brand"><b>hundekraft<span>Kurzreferenz 3.3.1</span></b><div class="dots" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div>
+  <div class="search"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg><input id="q" type="search" placeholder="Synth, Effekt, Taste, Funktion" aria-label="Suchen" autocomplete="off" autocorrect="off" autocapitalize="off" spellcheck="false" enterkeyhint="search"><button id="qx" aria-label="Suche leeren" hidden>✕</button></div>
+</header>
+<main id="main"></main>
+<nav><div>
+  <button data-tab="start"><svg viewBox="0 0 24 24"><path d="M13 3L5 14h6l-1 7 8-11h-6z"/></svg>Schnell</button>
+  <button data-tab="alle"><svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>Alle</button>
+  <button data-tab="favoriten"><svg viewBox="0 0 24 24"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.7l5.9-.8z"/></svg>Favoriten</button>
+  <button data-tab="tasten"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg>Tasten</button>
+</div></nav>
+<div id="sheet" aria-hidden="true"></div>
+<script>
+const BASE="https://hundekraft.github.io/op1-workshop/manual.html?version=3.0&without=bitcrush,blot,brassophone,dddd,father,grids,hollowsaint,juni,juni_chorus,nostromo,plate_o,ploc,steve,vapora#";
+const CAT={synth:"Synths",drum:"Drums",fx:"Effekte",play:"Spielen & Sequenzer",tape:"Tape & Sampler",sys:"System & MIDI"};
+const D=[];
+const SY="[synth], dann [Shift]+[T1] → „";
+const add=(c,id,n,t,o,e,k,x,cols)=>D.push({c,id,n,t,o,e,k,x,cols});
+const S=(id,n,t,e,k,x,cols,pick)=>add("synth",id,n,t,SY+(pick||n.toLowerCase())+"“ wählen, mit [T1] laden",e,k,x,cols);
+const F=(id,n,t,e,k,x,cols)=>add("fx",id,n,t,"Auf Synth- oder Drum-Slot: [Shift]+[T3] → „"+n.toLowerCase()+"“. Als Master-Effekt: im Mixer wie gewohnt",e,k,x,cols);
+const TS=["Drehen","Shift + Drehen"],TSP=["Drehen","Shift + Drehen","Drücken"],TP=["Drehen","Drücken"];
+
+/* ---------- SYNTHS ---------- */
+S("wavetable","Wavetable","Zwei morphende Oszillatoren mit Ladder-Filter.",[["Wave","Wellenposition: Sinus → warm → Dreieck → Säge → Rechteck → Puls → Vokal → digital, stufenlos"],["Detune","Verstimmung der beiden Oszillatoren, 0 bis ca. 27 Cent"],["Cutoff","Filterfrequenz, 30 Hz bis 16 kHz"],["Resonance","Resonanz bis zur Selbstoszillation, treibt das Filter zusätzlich an"]]);
+S("taffy","Taffy","Phasenverzerrung im Stil der Casio-CZ-Synths, ohne Filter.",[["Shape","Wellenform: Säge, Rechteck, Puls, Säge-Puls, mit Übergängen"],["Distortion","Stärke der Verzerrung: reiner Cosinus bis hell"],["Envelope","Zusätzliche Verzerrung am Notenanfang (klingt in ca. 0,2 s ab) – von aus bis kräftiger Pluck"],["Resonance","Mischt die resonante CZ-Welle dazu"]]);
+S("pew","Pew","Zugriegel-Orgel mit Rotary-Lautsprecher.",[["Register","Zugriegel-Kombinationen von weich bis voll, in ganzen Stufen"],["Percussion","Aus → weiche 2. Harmonische → scharfe 3. → mehr Tastenklick. Nur beim ersten Anschlag (wie Hammond)"],["Drive / chorus","Sauber → Scanner-Vibrato bis Chorus → Röhren-Drive"],["Leslie","Drei Zonen: Bremse, langsam, schnell – mit trägem Anlauf"]]);
+S("elg","Elg","Ein rufender Elch unter Nordlichtern: Stimme plus Flächen-Pad.",[["Call","Vokal, Tonhöhen-Schleifer und Häufigkeit der Rufe","Throat: Größe des Tiers (Bulle bis Kalb)"],["Breath","Atemgeräusch, leichtes Wackeln, Breite der Aurora","Call time: Dauer eines Rufs, 0,4–2,5 s"],["Body","Growl/Drive, Sub-Pegel, Brustresonanz, Helligkeit","Sub: aus, −1 Oktave, −2 Oktaven oder beide"],["Aurora","Vom reinen Tier zum Himmels-Pad; Tempo/Schärfe der Bänder","Drift: Klangfarbe der Aurora (tief, weit, hoch, folgt der Taste)"]],null,["Es gibt zusätzlich die Variante „Classic“ mit eigener Belegung: Interval (dritte Säge), Detune, Timbre (Filter + Growl), Movement (LFO)."],TS);
+S("eva","EVA","Astronauten-Chor über Helmfunk.",[["Pressure","Helligkeit und Attack: weich/fern bis hell/nah"],["Freq","Vokal: u – a – i"],["Oxygen","Luft und Breite: Atem im Attack, Chorus-Tiefe, langsames Anschwellen"],["Com","Funk-Charakter: bis 40 % wärmer, darüber dünner mit Rauschen, Aussetzern und Piepsern. Drücken: Oktave tiefer / original / höher"]]);
+S("mbira","MBIRA","Daumenklavier mit Kronkorken.",[["Strike","Anschlag: weicher Daumen bis harter Nagel"],["Tine","Material der Zunge: Holz – Stahl – Glas"],["Box","Resonanz und Wumms des Holzkastens (0 = aus)"],["Buzz","Rasseln der Kronkorken"]]);
+S("drift","DRIFT","Ein neuronales Netz statt Oszillator.",null,null,["Die vier Encoder haben keine Einzelfunktion – zusammen bestimmen sie die Position im Klangraum des Netzes. Am besten ein Preset laden und jeweils einen Encoder drehen.","Encoder drücken hat keine Funktion. [T2] ist wie üblich die Hüllkurve."],null,"DRIFT");
+S("ludwig","LUDWIG","Konzertflügel mit 88 Tasten.",[["Hammer","Welche Anschlagstärke klingt (Mitte = folgt dem Spiel)","Release: wie schnell die Dämpfer greifen"],["Stretch","Spreizung der Obertöne: rein – wie aufgenommen – glockig","Attack"],["Sustain","Ausklingzeit: bis 4× kürzer oder länger","Tuning: 8 Stimmungen (gleichstufig 440/430, Vallotti, Young, Werckmeister III, Kirnberger III, Mitteltönig …)"],["Tone","Helligkeit, Mitte = neutral","Pedal: rechts an, links aus"]],[["[Shift] + {o} drücken","Haltepedal an/aus (wird mit dem Sound gespeichert)"],["Encoder drücken","Springt auf den geladenen Wert zurück; mit [Shift] für den Shift-Wert"]],["Die OP-1-Hüllkurve wirkt nicht; [T2] zeigt stattdessen eine Kurzhilfe."],TS,"LUDWIG");
+S("windwood","Windwood","Physikalisch modellierte Klarinette.",[["Breath","Blasdruck – vor allem Klangfarbe, Start bei 80 %"],["Growl","Mitte = aus; links gesummtes Growl, rechts Flatterzunge"],["Bore","Helligkeit des Rohrs"],["Air","Atemgeräusch"]],null,["Die Hüllkurve auf [T2] ist der Atem: Attack = Crescendo (ca. 135 ms klingt natürlich).","Gebunden spielen (Taste drücken, während eine andere klingt) ergibt ein Legato."]);
+S("pinboard","PINBOARD","Synth, den man mit Steckstiften patcht.",[["Shape","Oszillator: Sinus → gebogen mit Osc 2 → Säge mit Puls","Osc 2 tune: Intervall in 8 Stufen"],["Frequency","Filterfrequenz","Noise: Pegel und Farbe; ganz oben nur noch Rauschen"],["Response","Resonanz, oben selbstschwingend","Ring: Ringmodulation Osc 1 × Osc 2"],["Patch","Eines von 64 Pin-Mustern, danach CUSTOM (eigenes Brett)","Osc 3 rate: 0,025 Hz bis 500 Hz"]],[["{o} drücken","Großes Steckbrett: {b} Quelle, {g} Ziel, {w} Pin (aus / voll / sanft / invertiert). Nochmal {o} = zurück"],["[T2]","Eigene Trapez-Hüllkurve: {b} Attack, {g} Haltezeit, {w} Decay, {o} Pause vor Wiederholung"]],null,TS,"PINBOARD");
+S("vox","VOX","Vocoder: deine Stimme, auf den Tasten gespielt.",[["Wave","Trägerklang: Säge → Rechteck → Puls → 3 Sägen → Rauschen"],["Formant","Verschiebt die Stimmbänder ±12 Halbtöne (größer/kleiner), Tonhöhe bleibt"],["Response","Links weich und träge, rechts scharf und robotisch"],["Air","Lässt Atem und Zischlaute durch – bessere Verständlichkeit"]]);
+S("snap","SNAP","Tonhöhenkorrektur für den Eingang – dezent bis Effekt.",[["Speed","Wie schnell auf die Note gezogen wird: links hart/robotisch, rechts natürlich"],["Human","Lässt Vibrato und kleine Slides bei langen Noten zu"],["Formant","Größerer (links) oder kleinerer (rechts) Stimmcharakter"],["Voices","Links nur korrigierte Stimme, Mitte plus gehaltene Tasten, rechts nur Tastenstimmen"]]);
+S("reactor","REACTOR","Ein Kraftwerk als Synth: Rückkopplung mit „Kerntemperatur“.",[["Cooling","Dunkler und sauberer, kühlt den Kern schneller"],["Radiation","Rauschen plus Geigerzähler-Klicks (mehr bei Hitze)"],["Rods","Steuerstäbe einzeln ziehen: alle drin = Sinus, jeder gezogene = mehr Obertöne"],["Heat","Drive und Hitze: bis „kritisch“ heller, darüber dicker und dunkler"]]);
+S("strum","Strum","Akustikgitarre, die Akkorde selbst schlägt und zupft.",[["Key","Tonart, C bis H"],["Harmony","Akkordtyp je Taste: Dur, maj7, Moll, m7, dorisch, mixolydisch, harm. Moll, sus, Power, Blues"],["Pattern","28 Schlag- und Zupfmuster (ONCE, FOLK, POP, BOSSA NOVA, TRAVIS, PIMA, ARPEGGIO …)"],["Neck","Lage am Hals: auto, offen oder um Bund 3/5/7/9/12"]],null,["Die komplette Liste der 28 Muster steht im Original."]);
+S("moai","Moai","Minimoog-artiger Synth mit 121 Sounds.",[["Sound","Sound 000–120 (32 Oszillator-Setups, 89 Presets)","Detune","Gesamtansicht; Shift + Drehen bewegt die Markierung"],["Cutoff","Filterfrequenz","Drive","Oszillator-Ansicht; nochmal = nächste Zeile"],["Emphasis","Resonanz","Amount: Wirkung der Contour aufs Filter","Filter; nochmal = Contour (ADSR)"],["Contour","Ein Regler: keine Hüllkurve → Plucks → langsame Schweller","Saturation","Analog-Ansicht: Detune, Drift, Drive, Sättigung"]],null,null,TSP);
+S("amp","Amp","Der Eingang wird zum Instrument (Gitarre, Mikro, Line).",[["Volume","Ausgangspegel: 0 stumm, 50 neutral, 100 ca. +6 dB"],["Comp","Kompression, 0 = aus"],["Tone","Warm bis hell, Mitte neutral"],["Drive","Sättigung über Amp und Box, mit Gate gegen Rauschen"]],[["Input-Taste","Monitoring einschalten"],["[Shift] + Input-Taste","Quelle wählen: Mikro, Line, Radio oder USB"]]);
+S("oxbow","Oxbow","Polysynth im Oberheim-Stil.",[["Tone","Öffnet das Filter"],["Shape","Oszillatoren: Puls, Säge+Puls, Säge+Säge, Quinte, Sync, Cross-Mod"],["Contour","Stärke und Tempo der Filterbewegung pro Note"],["Warmth","Verstimmung und Vintage-Drift zwischen den Stimmen"]]);
+S("sid","SID","Chip-Synth nach dem C64-SID 8580.",[["Mode","Dreieck, Säge, Puls, Rauschen, Sync oder Ring"],["Voices / width / interval","Je nach Modus: Oktave/Quinte beimischen, Pulsbreite (3–97 %) oder Intervall (0 bis +24 Halbtöne)"],["Cutoff","Filter öffnen, 00–99"],["Resonance","Resonanz, 00–99"]]);
+S("monolit","MONOLIT","Drei Oszillatoren in ein Ladder-Filter – für Bass und Leads.",[["Shape","1 Säge → Säge + Sub → 2 → 3 Sägen → breiter Stack"],["Cutoff","Ab 80 Hz, folgt den Tasten"],["Contour","Filterhüllkurve: links kurze bis längere Plucks, rechts Sustain und langsamer Attack"],["Heat","Erste Hälfte voller und angezerrt, oben klingelt und pfeift das Filter"]]);
+S("outatime","outatime","Zeitreise-Synth zwischen 1955 und 2015.",[["Year","1955 (orgelig, Dreieck) → 1985 (Säge) → 2015 (gefalteter Sinus, gläsern); Filter öffnet sich mit den Jahren"],["Speed","0–88 mph: wie weit die drei Oszillatoren um das Jahr pendeln"],["Power","0–1,21 GW Overdrive, pegelkompensiert und pro Note"],["Trail","Filter-Zündung pro Note (40 ms bis 1,4 s Abklingzeit), plus Resonanz"]]);
+S("bloodmoon","Bloodmoon","Dunkle Orgel mit Spukglocke.",[["Blood","Fülle der Orgel: dünn/hohl bis dick/dunkel"],["Eclipse","Glocke: Anschlagstärke und Ausklingzeit (0 = keine)"],["Haunting","Vibrato-Tiefe plus stetiges Tonhöhenwackeln"],["Moonrise","Vibrato-Tempo, 0,15 bis 9 Hz"]]);
+S("supersaw","Supersaw","Verstimmter Sägezahn-Stack.",[["Detune","Verstimmung der Sägen"],["Shape","Säge bis Rechteck"],["Sub","Pegel des Sub-Oszillators (Sinus, −1 Oktave)"],["Drive","1× bis 5× in einen Soft-Clipper"]]);
+S("fmbell","FM Bell","FM-Glocken und E-Pianos.",[["Ratio","Modulator-Verhältnis 0,5 bis 8 in halben Schritten"],["Index","Modulationsindex = Helligkeit"],["Decay","Wie schnell der Index abklingt: lang klingend bis kurzer Pluck"],["Feedback","Rückkopplung am Modulator – mehr Schmutz"]]);
+S("granular","Granular","Spielt das Sample des Slots als Grains.",[["Position","Stelle in der Aufnahme"],["Grain size","Ca. 10 bis 370 ms"],["Spray","Zufällige Startposition (bis ca. 1,5 s) und etwas Tonhöhenstreuung"],["Density","Überlappung der Grains, 0,5× bis 4×"]]);
+S("aether","Aether","Theremin, das über Neigen gespielt wird.",[["Pitch range","Tonumfang 1–24 Halbtöne","Totzone um die Ruhelage, 0–10°"],["Timbre","Sinus bis näselnd","Neigung für vollen Tonumfang, 20–60°"],["Vibrato","Vibrato-Stärke durch Schütteln","Vibrato-Tempo, 3–8 Hz"],["Volume","Lautstärke-Reaktion aufs Neigen","–"]],null,["Die Lautstärke-Hüllkurve liegt wie gewohnt auf [T2]."],["Drehen","Seite 2 (Encoder drücken)"]);
+S("iterlab","Iter lab","Labor-Ansicht für den originalen Iter-Synth.",null,null,["Gleicher Klang wie der Standard-Iter, aber mit neuer Bildschirmansicht."],null,"iter");
+S("mixtur","Mixtur","Untertöne unter jeder Taste (Musica Obscura).",[["Divider A","Unterton 1 bis 24 oder aus"],["Divider B","wie A"],["Divider C","wie A"],["Divider D","wie A"]],null,["Manche Encoder haben eine zweite Belegung: Encoder drücken zum Umschalten."]);
+S("arc","Arc","Der „singende Lichtbogen“ von 1899 (Musica Obscura).",[["Current","Sinus → Summen → Schreien"],["Carbon","Geradzahlige Obertöne"],["Hiss","Plasma-Rauschen und Tonhöhenschwanken"],["Strike","Zünden: Tonhöhenknick und Rauschen pro Note, zufälliges Neuzünden"]]);
+S("opus-dimension","dimension","Ensemble-Polysynth (Opus-Plugin).",[["Waveform","Rauschen, Puls, Rechteck, Säge, Säge mit Sub"],["Unison","Tiefe des Ensembles"],["Filter","30 Hz bis 18 kHz"],["Resonance","Resonanz"]],null,["[T2] ist die normale Lautstärke-Hüllkurve."]);
+S("opus-dx","dx","6-Operator-FM mit DX7-Bänken (Opus-Plugin).",null,[["[T1]","{b} Voice, {g} Bereich (Voice, Pitch-Hüllkurve, Operator 1–6), {w} Parameter ([Shift] = nächster Abschnitt), {o} Wert"],["[T2]","Lautstärke-Hüllkurve der Voice"],["[T4]","LFO: {b} Tempo, {g} Verzögerung, {w} Pitch-Tiefe, {o} Amp-Tiefe"]],["Eigene .syx-Bänke lädt man über die Workshop-Seite (Presets → Add your own)."]);
+
+/* ---------- DRUMS ---------- */
+add("drum","drumplus","drum+","Erweiterter Sample-Drumkit mit Hüllkurve, Filter und Retrigger pro Pad.","[drum], gesampeltes Kit laden, dann [Shift]+[T1] → „DRUM+“, mit [T1] laden. Pad spielen = Pad auswählen",
+[["T1: Spielen","Pitch","Feintuning ±50 Cent","Rückwärts"],["","Pitch-Hüllkurve (bis ±48 Halbtöne)","Glide-Zeit","Modus: Gate, One-Shot, Loop"],["","Retrigger: 2–8 Schläge","Retrigger-Rate 1/8–1/64","Choke-Gruppe: keine oder 1–4"],["","Drive","Lautstärke","Mono: neuer Schlag blendet den alten aus"]],
+[["[T2] {b}","Attack · Shift: Velocity → Pitch · Drücken: Hüllkurve an/aus"],["[T2] {g}","Decay · Shift: Humanize · Drücken: linear/exponentiell"],["[T2] {w}","Release · Shift: Resonanz · Drücken: Filter aus/LP/HP/BP"],["[T2] {o}","Cutoff · Shift: Velocity → Cutoff · Drücken: Velocity → Startpunkt"]],null,TSP);
+add("drum","gin","Gin","Drum-Synthesizer (Ton + Rauschen) mit Morph zwischen zwei Sounds.","[drum], dann [Shift]+[T1] → „GIN“",
+[["Morph","Morph A → B","Morph A → B"],["Tone pitch","Tonhöhe","Stärke der Pitch-Modulation"],["Tone decay","Ausklang Ton","Ausklang Rauschen"],["Balance","Verhältnis Ton/Rauschen","Cutoff des Rauschfilters"]],
+[["[T1]","Advanced-Seiten öffnen / zurück zu Play"],["[T2] / [T3] oder Pfeile","Zwischen den Advanced-Seiten blättern (Tone, Envelopes, Pitch Mod, Noise, Mix, EQ, Velocity)"],["[T4] (auf Advanced-Seite)","Sound benennen: {b} Cursor, {g} Zeichen, {o} Einfügen/Löschen, [T1] übernehmen"]],null,TS);
+add("drum","opus-sim","sim","Synthetisches Drumkit (Opus-Plugin).","[drum], dann [Shift]+[T1] → „sim“. Pro Taste 8 Werte auf [T1]",
+[["Pitch","28 Hz bis 7,2 kHz","Colour: Filter LP → BP → HP"],["Decay","15 ms bis 3,8 s","Shape: Sinus, weiches Rechteck, Rechteck, Metall"],["Sweep","Tonhöhenabfall bis 5 Oktaven","Choke-Gruppe 1–4 oder aus"],["Noise","Rauschanteil","Drive: Soft-Clip bis Crunch"]],null,["Vier Kits im Drum-Preset-Browser: sim default, range, ghost, metal."],TS);
+
+/* ---------- EFFEKTE ---------- */
+add("fx","fx-routing","Master-Effekt-Routing","Legt den Master-Effekt nur auf das Live-Instrument oder auf Sends vom Tape.","[Shift]+[mixer], dann [T2]",
+[["FX2 source","MASTER: ganzer Mix · INSTRUMENT: nur live gespielter Synth/Drums · AUX: Sends der Tape-Spuren"],["FX2 output","Nur bei INSTRUMENT/AUX – STEREO MASTER: hörbar, nicht aufgenommen · MONO TAPE: wird mono mit aufgenommen"]]);
+add("fx","master-lfo","Master-LFO","Vier LFOs, die die Regler des Master-Effekts bewegen.","[Shift]+[mixer], dann [T4]",
+[["Rate","Tempo: frei ca. 0,05–20 Hz oder Notenwert","Phasenversatz"],["Amount","Stärke, minus bis plus","Glättung"],["Target","Ziel: einer der vier Effektregler oder Rate/Amount/Offset eines anderen LFOs","Polarität: ±, nur +, nur −"],["Wave","Sinus, Dreieck, Rampe auf/ab, Rechteck, S&H, Lorenz x/z","Sync an/aus"]],null,null,TS);
+add("fx","strip","Channel Strip","Hochpass, Tiefpass, EQ-Band, Drive und Pegel für Synth, Drums, Master und Tape-Spuren.","[mixer], [T2], dann [Shift]+[T2]. Oder [Shift]+[T2] auf einer Synth-, Drum- oder Master-Effekt-Seite",
+[["HPF","Hochpass 20 Hz–12 kHz, ganz links = aus","LEVEL: −12 bis +12 dB"],["LPF","Tiefpass 20 Hz–20 kHz, ganz rechts = aus","ON/OFF zum Vergleichen"],["FREQ","EQ-Frequenz 50 Hz–12 kHz","Q: 0,3 (breit) bis 8 (schmal)"],["GAIN","EQ-Band −15 bis +15 dB","DRIVE: Bandsättigung 0–100 %"]],null,null,TS);
+F("rackverb","rackverb","Studio-Rack der späten 80er in einem Effekt.",[["Feedback","Schickt den Effekt in sich zurück: längere Fahnen, mehr Wiederholungen"],["Cutoff","Dunkelt ab, 11 kHz bis 500 Hz"],["Mix","Trocken bis ganz nass"],["Program","Programmwahl, ein Klick pro Programm, läuft im Kreis"]]);
+F("ente","ENTE","Sidechain-Ducking („Pumpen“) ohne Verkabelung.",[["Threshold","Einsatzpegel, −48 bis 0 dB"],["Ratio","Stärke, 1:1 bis 20:1"],["Release","Rückkehrzeit, 20 ms bis 1 s"],["Source","Worauf ENTE hört, ein Klick pro Quelle"]]);
+F("washer","Washer","Chorus, Ensemble und Flanger.",[["Spin","LFO-Tempo, 0,05–8 Hz"],["Depth","Modulationstiefe bis 4 ms"],["Foam","Chorus (12 ms) → Flanger (1 ms, mehr Feedback)"],["Mix","Effektanteil, 0 = aus"]]);
+F("snowglobe","Snowglobe","Shimmer-Hall mit Freeze.",[["Snowfall","Nachhallzeit"],["Shimmer","Anteil der Fahne, der eine Oktave steigt"],["Globe size","Raumgröße"],["Shake","Hallanteil; die letzten Prozent frieren die Fahne ein"]]);
+F("stutter","STUTTER","Tempo-synchroner Stotter-Effekt.",[["Rate","Slice-Länge: 1/4, 1/8, 1/8T, 1/16, 1/16T, 1/32"],["Mode","REPEAT, BRAKE (Tape-Stop), REVERSE oder GATE"],["Shape","Fade pro Wiederholung (2–12 ms); bei GATE: Öffnungsdauer"],["Chance","Wie viele Slices stottern: keine bis alle"]]);
+F("hail","HAIL","Grain-Wolken nach Mutable Instruments Beads.",[["Time","Startpunkt der Grains: jetzt bis 1,5 s zurück"],["Size","Grain-Länge bis 4 s; unteres Drittel = rückwärts"],["Shape","Hüllkurve: Rechteck, Decay, Glocke, umgekehrte Rampe"],["Density","Links regelmäßig, rechts zufällig, Mitte = keine neuen Grains"]]);
+F("crush","Crush","Bitcrusher mit Samplerate und Drive.",[["Bits","1–16 Bit"],["Rate","Samplerate ab ca. 0,3 kHz"],["Drive","0–24 dB in Soft-Clipping"],["Mix","Trocken bis nass"]]);
+F("warble","Warble","Chorus, Vibrato und Band-Eiern.",[["Rate","Tempo des Eierns"],["Depth","Tiefe der Modulation"],["Tone","Dunkel bis hell"],["Mix","Mitte = Chorus, voll = Vibrato"]]);
+F("plate","Plate","Plattenhall.",[["Decay","Nachhallzeit (neue Plate: 0,3–20 s)","Size: Raum bis Halle"],["Tone","Dunkel bis hell","Modulation der Fahne"],["Pre","Vorverzögerung (bis 200 ms)","–"],["Mix","Trocken bei 00, nur Hall bei 99","–"]],null,["Die Shift-Ebene gibt es nur bei der neuen Plate, nicht bei CLASSIC."],["Drehen","Shift + Drehen (neue Plate)"]);
+F("sister","SISTER","Kathedralenhall, dessen Fahne singt, klingt oder rückwärts anschwillt.",[["Space","Kapelle bis Kathedrale, ca. 2–13 s"],["Voice","Chor (Vokale) ↔ Pfeifen (gestimmt), Mitte beides"],["Swell","Fahne vorwärts ↔ rückwärts"],["Mix","Trocken bis nass"]]);
+add("fx","tape-fx","Tape (Echo)","Vintage-Bandecho.","Auf Synth- oder Drum-Slot: [Shift]+[T3] → „tape“",[["Age","Neu bis abgenutzt: dunklere, sattere Wiederholungen"],["Feedback","0 bis ca. 110 %, über 100 % Selbstoszillation"],["Time","30 ms bis 1,45 s, gleitet wie echtes Band"],["Wow and flutter","Langsames Leiern und schnelles Flattern"]]);
+F("clouds","Clouds","Granulare Texturen nach Mutable Instruments Clouds.",[["Position","Stelle im Puffer"],["Size","Grain-Länge"],["Density","Unter der Mitte regelmäßig, darüber zufällig"],["Texture","Grain-Form; über 75 % kommt Diffusion dazu"]]);
+F("reverb","Reverb","Hall nach Mutable Instruments Elements.",[["Time","Länge der Fahne, bis fast endlos"],["Tone","Dunkel bis hell"],["Diffusion","Dichte der Reflexionen"],["Mix","Trocken bis nass"]]);
+F("palme","Palme","Zwölf Resonanzsaiten und ein Gong (Musica Obscura).",[["Tuning","Grundton der 12 Saiten, C2 bis H4"],["Sustain","0,25 bis 30 s"],["Excite","Wie stark das Signal die Saiten anregt"],["Mix","Trocken – beides – nur Saiten"]]);
+add("fx","in-a-room","In a room","Jeder Loop-Durchlauf geht erneut durch einen Raum (Musica Obscura).","Auf Synth- oder Drum-Slot: [Shift]+[T3] → „in a room“",[["Size","Längste Wand, 0,8 bis 8 m"],["Shape","CUBE, GOLDEN, BOLT oder LUCIER"],["Erode","Wie stark jeder Durchlauf gefiltert wird"],["Mix","Trocken bis Loop"]]);
+add("fx","opus-chorus","chorus (Opus)","Chorus mit bis zu drei Stimmen.","Auf Synth- oder Drum-Slot: [Shift]+[T3] → „chorus“",[["Rate","0,05–8 Hz","Stimmen 1–3"],["Depth","Tiefe","Feedback"],["Delay","Verzögerung","Low-Cut (Sinus) bzw. feinere Delay-Schritte (Dreieck)"],["Mix","Effektanteil","High-Cut (Sinus) bzw. feinere Mix-Schritte (Dreieck)"]],null,null,TS);
+
+/* ---------- SPIELEN & SEQUENZER ---------- */
+const SQ="[Shift]+[seq], mit {b} wählen, dann [seq] zum Laden";
+add("play","hold","HOLD","Tasten halten ergibt einen Loop (Step-Sequenzer mit bis zu 32 Schritten).",SQ,
+[["Cursor","Cursor bewegen","Split: Tasten darunter transponieren das Muster"],["Swing","Swing","Poly, Mono oder Multi (4 Mono-Spuren)"],["Transpose","Transponieren","Schritt am Cursor löschen"],["Length","Länge 1–32 Schritte (1/16)","Pattern Hold an/aus"]],
+[["{b} drücken","Start / Stopp"],["{o} drücken","Muster löschen"],["{g} / {w} drücken (MULTI)","Spur darunter / darüber wählen"],["[STOP]","Anhalten bis zur nächsten Taste"]],null,TS);
+add("play","latch","Latch","Noten klingen weiter, nachdem du die Tasten loslässt – für Drones.","Synth, Hüllkurvenseite [T2]: {o} drücken",null,
+[["{o} drücken (auf [T2])","Latch an/aus"],["[Shift] + {g} drücken (auf [T2])","Zwischen LATCH und HOLD wählen"],["[STOP]","Lässt die Noten los, Latch bleibt aktiv"]]);
+add("play","lineclock","Line Clock","Tempo per Puls-Clock über den Line-Eingang (Drum Machine, Modular).","Tempo-Seite, Sync auf MIDI stellen, dann [Shift] halten",null,
+[["[Shift] + {b} drücken","RATE: aus, 24, 4, 2 oder 1 Puls pro Viertel"],["[Shift] + {g} drücken","START: auto (läuft mit den Pulsen) oder manuell"],["[Shift] + {w} drehen","LEVEL: Empfindlichkeit 1–8"],["[Shift] + {o} drücken/drehen","EDGE: steigende oder fallende Flanke"]]);
+add("play","keyvel","Key Velocity","Anschlagdynamik für die OP-1-Tasten.","[Shift]+[help], [T3], dann [Shift] halten und {b} auf KEY VELOCITY drehen",
+[["VELOCITY","ON oder OFF"],["SENSITIVITY","1–16, höher = leichter volle Lautstärke"],["CURVE","SOFT, LINEAR oder HARD"],["MIN VELOCITY","0–120: Lautstärke des leisesten Anschlags"]]);
+add("play","trigguard","Trigger Guard","Filtert Tastenpreller (doppelte Auslösungen).","[Shift]+[help], [T3], eigene Seite ([Shift] + {b} drehen)",
+[["TRIG. GUARD","ON oder OFF"],["WINDOW MS","10–300 ms: so kurz nach dem Loslassen zählt ein Druck als Preller"],["WINDOWS","PER NOTE (je Taste) oder ALL (gemeinsam)"],["HOLD RELEASE","ON hält das Loslassen für die Fensterzeit zurück"]]);
+add("play","composer","Composer","Eine Taste halten – ein ganzer Song (Lead, Bass, Arp, Akkorde und Drums).",SQ+" („composer“)",
+[["PLAY: Style","Stil","SONG: Rolle – Lead, Bass, Arp oder Akkorde"],["Density","Mehr oder weniger Noten","Tonart"],["Vary","Abweichung vom Stil","Dynamik der Akzente"],["Tension","Wie frei die Melodie den Akkord verlässt","SONG / LOOP / B ONLY / C ONLY"]],
+[["Taste halten","Song spielt; loslassen = Stopp"],["[Shift] beim Loslassen","Spielt weiter, [STOP] beendet"],["[Shift] + {b} / drücken","Tonart folgt Scale/Chord oder manuell / Lock: Abschnitt wiederholt exakt"],["[Shift] + {g} / drücken","Swing / neuer Rhythmus"],["[Shift] + {w} / drücken","Notenlänge / neue Akkorde"],["[Shift] + {o} / drücken","Nächster Abschnitt wählen / zum Abschnitt springen"],["[REC] halten + Taste","Tape-Aufnahme und Song starten gemeinsam"]],["Im Drum-Modus schreibt Composer passende Drums; dort regeln {g} Density/Ghosts und {o} Fills.","Nicht [Shift]+[PLAY] zum Starten nehmen – das spielt das Tape rückwärts."],["PLAY-Seite","SONG-Seite"]);
+add("play","trail","Trail","Eine Melodie, die sich langsam weiterentwickelt.",SQ+" („trail“)",
+[["Rate","Tempo","TUNE: Grundton"],["Density","Mehr Noten oder mehr Pausen","Skala"],["Character","Ruhig bis unruhig","Umfang 1–3 Oktaven"],["Evolve","Wie oft sich die Phrase verändert","Gate: Notenlänge"]],
+[["Note halten","Phrase spielt; [Shift] beim Loslassen hält sie"],["[Shift] + {b} / drücken","Tonart lokal oder global / Lock"],["[Shift] + {g} / drücken","Swing / neuer Rhythmus"],["[Shift] + {w} / drücken","Gate / jetzt eine Veränderung"],["[Shift] + {o} / drücken","Schritte 8, 16, 32 / Answer an/aus"]],null,["PLAY-Seite","TUNE-Seite"]);
+add("play","quant","QUANT","Locker einspielen, im Takt zurückhören: quantisierter Loop-Recorder.",SQ+" („QUANT“)",
+[["Bars","Länge: 1, 2, 4 oder 8 Takte","–","Letzten Durchgang rückgängig · mit Shift: Loop löschen"],["Grid","Raster: 1/8, 1/16, 1/32, 1/8T, 1/16T, aus","Swing 0–75 %","–"],["Strength","100 % = aufs Raster, 0 % = wie gespielt","Velocity: wie gespielt oder fest","Overdub"],["–","–","–","Play/Stopp · mit Shift: neue Aufnahme"]],
+[["[Shift] + {o} drücken","Aufnahme: ein Takt Vorzähler, dann die eingestellte Taktzahl"],["[REC] halten + [Shift] + hohes Cis","Loop und Tape-Aufnahme starten gemeinsam"]],null,TSP);
+add("play","randomiser","Randomiser","Gleiches Instrument, neuer Sound: zufällige Variationen.","Auf einer Synth-Seite: [Shift]+[drop]",null,
+[["[Shift] + [drop]","Vorwärts durch die Variationen bzw. neue erzeugen"],["[Shift] + [lift]","Zurück, bis zum Originalsound"]],["Was verändert wird (Synth, Hüllkurve, LFO, FX), stellt man in den Settings auf der Seite RANDOMISER ein."]);
+add("play","chord","Chord Mode","Eine Taste spielt einen ganzen Akkord – mit Skalen, Progressionen und Strumming.","[Shift]+[help], dann [T4]. Nochmal [T4] schließt die Seite, der Modus bleibt an",
+[["Root","Grundton","Farbe: Dreiklang, sus4, sus2, 7, add9"],["Scale","Skala (13)","Tasten außerhalb der Skala: LEAD, PASS oder BORR · Shift: Stimmführung an/aus"],["Progression","Progression (69 + „mine“); mit Shift gruppenweise","Degree: eigene Folge aufnehmen · Step: neu starten · Shift: „mine“ löschen"],["Mode","Degree- oder Step-Modus","Akkorde an/aus · Shift: Seite B"]],
+[["Seite B {b}","Voicing (auto, Umkehrungen, Drop 2, Spread) · drücken: Bass eine Oktave tiefer"],["Seite B {g}","Strum-Tempo · drücken: Richtung"],["Seite B {w}","Human (Zufall) · drücken: Drum-Akkorde an/aus"],["Seite B {o}","Strum-Form (gleichmäßig, Fade, Accel) · drücken: zurück zu Seite A"],["[Shift] + Taste (Degree)","Dominantseptakkord auf dieser Stufe"],["[Shift] + Taste (Step)","Einen Akkord zurück"]],["Step-Modus: jede Taste spielt den nächsten Akkord der Progression, die Taste bestimmt nur die Lage.","Eigene Progression: bis zu 16 Akkorde aufnehmen."],TP);
+add("play","scale","Scale Mode","Tastatur auf eine Skala festlegen.","[synth], [T2], dann [Shift] halten",null,
+[["[Shift] halten (auf [T2])","Skalenansicht zeigen"],["[Shift] + {o} drücken","Tastenzuordnung umschalten"]],["Gilt für alle Synths. Auf einem sampler+-Slot öffnet [Shift] auf [T2] dessen eigene Seite – Skala dann von einem anderen Slot aus einstellen."]);
+add("play","midiseq","MIDI-Sequenzer","Vier MIDI-Spuren, die mit dem Tape laufen.","Erst in den Settings einschalten ([Shift]+[help], [T3], {g}), dann [seq] halten + [tape]",null,
+[["[T1]–[T4]","Spur wählen · mit [Shift]: stumm/an"],["[REC] halten","Im Lauf: aufnehmen, solange gehalten. Aus Stopp: erste Note startet Wiedergabe und Aufnahme"],["[Shift] + [REC]","Aufnahme einrasten bzw. scharf schalten"],["[REC] halten + [metronome]","Vorzähler, dann Aufnahme bis [STOP]"],["[Shift] + {b} drehen","Quantisierung: aus, 1/4 … 1/32, Triolen"],["[Shift] + {b} drücken","Auswahl quantisieren"],["[scissors]","1× Auswahl-Anfang, 2× Auswahl-Ende"],["[lift] / [drop]","Ausschneiden / Einfügen · [Shift]+[lift]: aus allen vier Spuren"],["[Shift] + [drop]","Spur als Audio aufs Tape drucken"],["{w} drehen / drücken","Ausgang wählen / zwischen Ausgang und Eingang wechseln"],["[tape]","Zurück zum Tape"]],["Ein-/Ausgänge: I = Tastatur/Synth, S = OP-1-Sequenzer, M1–M16 = USB-MIDI-Kanal.","Solange die Ansicht offen ist, nimmt das Tape kein Audio auf (außer beim Drucken)."]);
+add("play","euclid","Euclid","Euklidischer Sequenzer mit 6 Slots.",SQ+" („euclid“)",
+[["Steps","Schritte 1–16","Rate 1/4–1/32, auch Triolen"],["Hits","Anzahl Schläge","Gate 10–100 %"],["Rotation","Drehung · Shift: Slot wählen","Oktave −2 bis +2"],["Start","Rechts Start, links Stopp · Shift: alle Slots","Level (Velocity)"]],
+[["[Shift] + erste 4 weiße Tasten","Pattern 1–4"],["[Shift] + letzte 6 weiße Tasten","Slot 1–6 stummschalten"],["[Shift] + hohes Dis","Alle stumm / alle an"],["[Shift] + hohes Cis","Alle Slots starten/stoppen; mit [REC] startet die Tape-Aufnahme mit"],["[lift] / [scissors] / [drop]","Slot kopieren / ausschneiden / einfügen; mit [Shift] das ganze Pattern"]],null,["Drehen","Seite 2 (drücken)"]);
+add("play","dots","Dots","Step-Sequenzer mit Parameter-Locks, Ratchets und Wahrscheinlichkeiten.",SQ+" („dots“)",
+[["Cursor","Cursor bewegen; mit Shift dabei löschen"],["Length","Slot-Länge 1–64; mit Shift zeilenweise füllen"],["Value","Parameterwert; drücken wechselt zwischen Parameter und Wert"],["Level","Pegel des Schritts 1–127"]],
+[["[Shift] + {w} drehen","Slot wählen"],["[REC]","Aufnahmemodus an/aus – zum Abspielen unbedingt wieder ausschalten"],["{o} drücken (bei REC)","Step-Aufnahme ↔ Live-Aufnahme"],["{b} drücken (leerer Schritt)","Reinen Lock-Schritt setzen/entfernen"],["Tastenkürzel","Wie bei Euclid (Pattern, Mute, Start mit hohem Cis)"]],["Schritt-Parameter: GATE, RATCH (1–8), CHANCE, COND (z. B. 1:2), NUDGE, RAMP, FX1–4 und SY1–4 (Locks für Effekt- und Synth-Regler)."],["Bei laufender Aufnahme"]);
+add("play","c64arp","C64 Arpeggiator","Arpeggio-Tabelle im Chiptune-Stil, pro Schritt editierbar.",SQ+" („c64arp“)",
+[["Preset","Tabelle: Dur, Moll, 7er, Quinte, sus, Oktave, Alberti …","Edit: Schritt wählen"],["Rate","1/2 bis 1/64, auch Triolen","Offset −24 bis +24 Halbtöne"],["Octaves","1–4","Dwell: 1–8 Grundschritte"],["Hold","Rechts an, links aus","Gate 10–100 %"]],
+[["Encoder drücken","Zwischen Haupt- und Edit-Seite wechseln"],["[Shift] + {b}","Tabellenlänge 1–16"],["[Shift] + {o}","Gate"]],null,["Hauptseite","Edit-Seite"]);
+add("play","quad","Quad LFO","Vier LFOs pro Sound.","[synth] oder [drum], [Shift]+[T4], {b} auf QUAD, [T4]",
+[["Speed","0,05–20 Hz oder Notenwert","Typ: VOIC, FREE, GATE, MONO, SHOT, RAND"],["Amount","−100 bis +100 %","Glättung 0–7"],["Target","Ziel","Polarität: ±, +, −"],["Wave","Sinus, Dreieck, Rampen, Rechteck, S&H, Lorenz x/z","Tempo-Sync an/aus"]],
+[["[Shift] + Encoder drücken","Diesen LFO stummschalten"],["[T4] (auf LFO-Seite)","Gesamten LFO aus/an"]],["Typen: VOIC/GATE pro Stimme, FREE/MONO für alle; GATE und MONO starten bei jeder Note neu; SHOT = ein Durchlauf; RAND = Zufallswert pro Note."],TS);
+add("play","pond","Pond","LFO als kleines Ökosystem: vier Arten konkurrieren um Platz.","[synth], [Shift]+[T4], {b} auf POND, [T4]",null,
+[["Encoder drücken","Art auswählen"],["{g}","Chaos: ruhig bis wild"],["{w} / {o}","Stärke / Ziel der gewählten Art"],["[Shift] + {b}","Frei oder tempo-synchron"]]);
+add("play","opus-matrix","matrix","Modulationsmatrix mit bis zu acht Zeilen (LFO oder Hüllkurve → Ziel).","[synth] oder [drum], [Shift]+[T4] → „matrix“",
+[["Row","Zeile wählen bzw. Platz zum Hinzufügen","Rate oder Notenlänge"],["Shape","Sinus, Dreieck, Säge auf/ab, Rechteck, S&H oder Hüllkurve","Hz oder BPM"],["Amount","Stärke","Frei oder Neustart pro Taste"],["Target","Ziel","Bipolar oder unipolar"]],
+[["{b} drücken","Zeile stumm/an bzw. neue Zeile anlegen"],["[Shift] + {b} drücken","Zeile löschen"]],["Bei einer Hüllkurven-Zeile stellen [Shift] + die vier Encoder ADSR ein."],TS);
+add("play","oracle","Oracle","16-Step-Sequenzer aus vier geomantischen Figuren (Musica Obscura).",SQ+" („oracle“)",
+[["Mother 1","Figur wählen","Rate 1/4–1/32","Zufällig neu würfeln"],["Mother 2","Figur wählen","Gate 10–100 %","Zufällig neu würfeln"],["Mother 3","Figur wählen","Spur wählen: Fire, Air, Water, Earth","Zufällig neu würfeln"],["Mother 4","Figur wählen","Rechts Start (eingerastet), links Stopp","Zufällig neu würfeln"]],
+[["[Shift] + {w} drücken","Spur-Edit an/aus: Taste setzt Intervall bzw. Drum-Pad der Spur"],["[lift] / [drop]","Pattern kopieren / einfügen"],["[scissors]","Gewählte Spur stumm; mit [Shift]: Pattern zurücksetzen"],["[Shift] + erste 4 weiße Tasten","Pattern 1–4"]],null,TSP);
+add("play","peal","Peal","Englisches Wechselläuten: 3–8 gehaltene Tasten sind die Glocken (Musica Obscura).",SQ+" („PEAL“), dann 3–8 Tasten halten",
+[["Method","Plain Hunt, Plain Bob, Grandsire, Stedman","Oktave −2 bis +2","Handstroke-Pause an/aus"],["Rate","1/4–1/32","Gate 10–100 %","Stopp, wenn die Ausgangsreihenfolge wieder erreicht ist"],["Calls","Wahrscheinlichkeit automatischer Calls","Level 1–127","Bob ansagen · mit Shift: Single"],["Rough","Ungenauigkeit in Timing und Lautstärke","Rechts Start, links Stopp","Neustart in Ausgangsreihenfolge"]],null,null,TSP);
+add("play","seq-tape","Sequenzer im Takt mit dem Tape starten","So beginnen Sequenzer und Aufnahme auf demselben Schlag.","[REC] halten, dann Sequenzer starten",null,
+[["[REC] halten + Taste","Für Sequenzer, die per Taste starten (Standard, C64arp, Composer, Trail, HOLD, Oracle, Peal)"],["[REC] halten + [Shift] + hohes Cis","Für Euclid, Dots und QUANT"]]);
+
+/* ---------- TAPE & SAMPLER ---------- */
+add("tape","stefan","STEFAN","Zweite Bandmaschine: vier Köpfe mit eigener Geschwindigkeit, Richtung und Loop.","In den Settings einschalten ([Shift]+[help], [T3], {w}), dann Tape-Seite",null,
+[["[T1]–[T4]","Aktive Spur wählen · mit [Shift]: stumm/an"],["[Shift] + [STOP] / [PLAY]","Nur die aktive Spur stoppen/starten"],["[STOP] im Stopp","Kopf springt zum Loop-Anfang bzw. auf 0"],["Soundtasten 1 / 2 / 3","Loop-In, Loop-Out, Loop an/aus · [Shift]+3: Clip unter dem Kopf loopen"],["[Shift] + Soundtaste 5","Rückwärts"],["[left] / [right]","Kopf scrubben · mit [Shift]: taktweise"],["{w}","Geschwindigkeit 1/4 bis 4× · mit [Shift] fein"],["{o}","Aufnahmepegel"]]);
+add("tape","tapes","Vier Tapes","Vier unabhängige Bänder zum Umschalten.","[tape] halten + [T1]–[T4]",null,[["[tape] halten + [T1]–[T4]","Tape 1–4 wählen"]],["Tape 1 ist das normale OP-1-Band und bleibt auch mit Original-Firmware erhalten. Tape 2–4 entstehen beim ersten Öffnen."]);
+add("tape","undo","Undo & Redo","Bis zu sieben Schritte zurück – Aufnahmen, Lift/Drop, Split, Join, Tape-Edits.","[tape] halten + [left] / [right]",null,[["[tape] halten + [left]","Rückgängig"],["[tape] halten + [right]","Wiederholen"]]);
+add("tape","tape-edits","Tape-Edits","Merge, Loop kopieren, hinter dem Loop einfügen, Bounce.","Auf der Tape-Seite",null,
+[["[Shift] + [drop]","Merge: gemischte Lift-Spuren auf die gewählte Spur legen"],["[tape] halten + [lift]","Loop kopieren (alle vier Spuren, Loop an, unter ca. 22 s)"],["[tape] halten + [drop]","Kopie hinter dem Loop einfügen, Loop wandert mit"],["[tape] halten + [Shift] + [drop]","Bounce: alle vier Spuren im Loop auf die gewählte Spur mischen"]],["Song live bauen: 4-Takt-Loop setzen → kopieren → einfügen → Neues darüber aufnehmen → wieder einfügen."]);
+add("tape","sampletools","Sampler-Werkzeuge","Zoom, Takt-Anpassung und Stimmen im normalen Sampler.","Auf dem Sampler-Bildschirm",null,
+[["{w} drücken","Hineinzoomen (2× bis 32×) · mit [Shift]: herauszoomen"],["{o} drücken","Auf Takte anpassen"],["[Shift] + {g} drücken","Neu stimmen"],["[Shift] + {g} oder {w} drehen","Von Hand stimmen"]]);
+add("tape","markers","Marker","Sprungmarken auf dem Tape.","Tape-Seite: {o} drücken",null,
+[["{o} drücken","Marker an der Abspielposition setzen"],["[Shift] + {o} drücken","Marker unter der Position entfernen"],["[Shift] + {o} drehen","Zum nächsten/vorigen Marker springen"],["[Shift] + [left]/[right] halten","Wiederholtes Springen zur nächsten Rasterlinie"]]);
+add("tape","punch","Punch-in","Automatische Aufnahme zwischen zwei Markern.","[tape] halten + [REC]",null,
+[["[tape] halten + [REC]","Scharf schalten (Marker werden rot) bzw. wieder aus"],["Danach [PLAY]","Aufnahme startet am nächsten Marker und endet am übernächsten"]],["Quantisierter Punch (Settings, Seite PUNCH): Aufnahme beginnt und endet auf dem nächsten Raster – BAR, 1/4, 1/8 oder 1/16. Zweimal [STOP] stoppt sofort."]);
+add("tape","count-in","Vorzähler","4, 8 oder 16 Klicks vor der Aufnahme.","Tape gestoppt: [REC] halten + [metronome]",null,[["[REC] halten + [metronome]","Vorzähler, dann Aufnahme auf dem nächsten Schlag"],["[STOP]","Abbrechen"]],["Die Länge stellt man in den Settings ein ({b})."]);
+add("tape","erase","Schnelles Tape-Löschen","Die bekannte Löschgeste braucht nur noch Sekunden.","[Shift]+[tape], dann [T1]–[T4] zusammen drücken",null,null,["Löscht nur die bespielten Teile. Nicht rückgängig zu machen."]);
+add("tape","samplerplus","Sampler+","Der Synth-Sampler mit Hüllkurven, Filter und Loop-Funktionen.",SY+"sampler+“",
+[["T1","Loop-Crossfade","Zufälliger Start","Loop vorwärts / Ping-Pong"],["","Pitch-Hüllkurve","Zeit der Pitch-Hüllkurve","Loop im Release weiterlaufen lassen"],["","Tempo-Sync durch Umstimmen","Velocity → Startposition","Sample-Browser"],["","Drive","Sample-Gain","Rückwärts"]],
+[["[T2] {b}","Attack · Shift: Poly/Mono/Legato/Unison · Drücken: linear/exponentiell"],["[T2] {g}","Decay · Shift: Portamento · Drücken: Haltezeit"],["[T2] {w}","Sustain · Shift: Cutoff · Drücken: Filter aus/LP/HP/BP"],["[T2] {o}","Release · Shift: Resonanz · Drücken: Velocity → Pegel"]],null,TSP);
+add("tape","sampedit","Sample-Editor","Samples schneiden, faden, normalisieren, zerlegen und stimmen.","Synth: [synth] halten + [scissors] · Drums: [drum] halten + [scissors]. Gleiche Kombination schließt und speichert",null,
+[["{b} / {g}","Start- und Endmarker · {b} drücken: Loop-Punkte (Synth)"],["{w}","Zoom · mit [Shift]: Auswahl verschieben"],["{o}","Lautstärke −60 bis +24 dB · drücken: Snap (Nulldurchgang, Transienten, aus)"],["[T1]","Auf Auswahl kürzen · [Shift]: DC entfernen · Drums: Stille abschneiden"],["[T2]","Auswahl stumm · [Shift]: Fade (in/out, Kurve, Länge mit {b})"],["[T3]","Normalisieren · [Shift] bei Drums: Auto-Cut (Hits, gleichmäßig, Notenwert, Tap)"],["[T4]","Rückwärts · [Shift] bei Drums: Pads stimmen"],["[Shift] + [left]","Letzten Schnitt rückgängig"],["[lift] / [scissors] / [drop]","Auswahl kopieren / ausschneiden / einfügen – auch zum Tape"]]);
+
+/* ---------- SYSTEM ---------- */
+add("sys","file","FILE – Speicherübersicht","Zeigt, was den Speicher belegt.","[Shift]+[COM], auf dem OP-1-Tab ([T1]) nochmal [Shift]+[COM]",null,[["{b} drücken (in FILE)","Flash-Check: prüft den Speicher (HEALTHY, FIXED, ERRORS, DEAD)"]]);
+add("sys","naming","Sounds benennen & verwalten","Presets benennen, überschreiben, umbenennen, löschen.","Soundtaste gedrückt halten",null,
+[["Soundtaste halten","Sound speichern und benennen"],["{w} oder {b} drücken","Buchstaben hinzufügen · [left] löscht den letzten"],["[synth]/[drum] + Soundtaste halten","Überschreiben unter gleichem Namen"],["[Shift] + Soundtaste","Preset-Browser: {b} Ordner, {g} Preset"],["{w} drücken (im Browser)","Umbenennen, mit {o} bestätigen"],["[Shift] + {w} gedrückt halten (im Browser)","Löschen (Countdown; loslassen bricht ab)"]]);
+add("sys","monitor","Resource Monitor","CPU, Audio-Last, Speicher, Disk und MIDI-Aktivität.","[Shift]+[help], dann [T1]",null,[["[T1]","Schließen"]]);
+add("sys","settings","Settings","Globale Einstellungen und Plugin-Seiten.","[Shift]+[help], dann [T3]",
+[["COUNT-IN","4, 8 oder 16 Schläge","Zurück auf 4"],["MIDI SEQ","MIDI-Sequenzer an/aus","An/aus"],["STEFAN","An/aus","An/aus"],["CLICK","Metronom-Klang: TONE, TICK, WOOD","Metronom durch den Master-Effekt oder nicht"]],
+[["[Shift] + {b} drehen","Seite wechseln (USB, Key Velocity, Trigger Guard, Punch, Randomiser …)"]],["USB-Seite: USB AUDIO = MASTER ONLY oder MASTER+TRACKS (Kanäle 3–6 = Tape-Spuren), TRACKS FROM = PRE/POST FADER."],TP);
+add("sys","midi","MIDI-Steuerung & CCs","OP-1 per USB-MIDI fernsteuern.","[Shift]+[COM], [T1], dann [Shift] halten",null,
+[["[Shift] + {g} / {w} / {o}","KEYS CH / PARAM CH / FEEDBACK einstellen"],["CC 12–15","Synth-Engine blau bis orange (16–18: zweite Seite)"],["CC 20–23","Synth-Hüllkurve ADSR"],["CC 24–27","Synth-LFO (28–31: weitere Werte)"],["CC 40–43","Synth-Effekt (44–46: zweite Seite)"],["CC 33–36 / 37","Drum-Engine auf dem Ziel-Pad / Ziel-Pad 0–23"],["CC 48–54 · 56–63 · 78–81","Drum-Effekt · Drum-LFO · Drum-Hüllkurve"],["CC 70–76","Master-Effekt"],["CC 102–105 · 106–109","Spur 1–4 Lautstärke · Pan"],["CC 110–113 · 114–117","Spur 1–4 Mute · Send zu FX2"],["CC 118","Tape-Eingangspegel"]],["CC-Automation im MIDI-Sequenzer: 53–56 Engine, 57–60 Hüllkurve, 72–75 Effekt, 76–79 LFO."]);
+add("sys","oblique","Uhr & Oblique Strategies","Uhr oder Zufallskarte – und das Sprungbrett zu Monitor, Settings und Chord Mode.","[Shift]+[help]",null,[["[Shift] + [help] nochmal","Zwischen Uhr und Karte wechseln"],["[T1] / [T3] / [T4]","Resource Monitor / Settings / Chord Mode"]]);
+add("sys","install","Firmware installieren & retten","Kurzfassung für Update und Notfall.","OP-1 aus, [COM] halten und einschalten",null,
+[["[COM] halten + einschalten","Boot-/Update-Menü"],["[T1] im Menü","„Upload firmware“: .op1-Datei aufs Laufwerk kopieren, auswerfen"],["[Shift] + [COM], dann [T3]","Disk-Modus für Backup (TAPE, ALBUM, DRUM, SYNTH sichern)"],["[T1] / [T2] bei USB-Installation","Bestätigen und neu starten / abbrechen"]],["Bleibt die OP-1 beim Booten hängen: mit [COM] einschalten und einen Build neu installieren.","Vor dem ersten Installieren ein Backup machen – Details im Original."]);
+
+/* ---------- SCHNELLZUGRIFF ---------- */
+const Q=[
+["Synth laden","[synth] → [Shift]+[T1]","wavetable"],
+["Effekt laden","[synth]/[drum] → [Shift]+[T3]","rackverb"],
+["LFO wählen (Quad, Pond, matrix)","[synth]/[drum] → [Shift]+[T4]","quad"],
+["Sequenzer wählen","[Shift]+[seq]","hold"],
+["Drum-Typ (drum+, Gin, sim)","[drum] → [Shift]+[T1]","drumplus"],
+["Chord Mode","[Shift]+[help] → [T4]","chord"],
+["Scale Mode","[synth] → [T2] → [Shift] halten","scale"],
+["Settings","[Shift]+[help] → [T3]","settings"],
+["Resource Monitor","[Shift]+[help] → [T1]","monitor"],
+["Master-Effekt-Routing","[Shift]+[mixer] → [T2]","fx-routing"],
+["Master-LFO","[Shift]+[mixer] → [T4]","master-lfo"],
+["Channel Strip","[mixer] → [T2] → [Shift]+[T2]","strip"],
+["Tape wechseln (1–4)","[tape] halten + [T1]–[T4]","tapes"],
+["Tape Undo / Redo","[tape] halten + [left] / [right]","undo"],
+["Loop kopieren / einfügen","[tape]+[lift] / [tape]+[drop]","tape-edits"],
+["Marker setzen","Tape: {o} drücken","markers"],
+["Punch-in","[tape] halten + [REC]","punch"],
+["Vorzähler","[REC] halten + [metronome]","count-in"],
+["Sample-Editor","[synth]/[drum] halten + [scissors]","sampedit"],
+["MIDI-Sequenzer","[seq] halten + [tape]","midiseq"],
+["Sound variieren (Randomiser)","[Shift]+[drop]","randomiser"],
+["Sound benennen","Soundtaste halten","naming"],
+["Preset-Browser","[Shift] + Soundtaste","naming"],
+["Speicher (FILE)","[Shift]+[COM] → [Shift]+[COM]","file"],
+["MIDI-Kanäle","[Shift]+[COM] → [T1] → [Shift] halten","midi"],
+["Update-Menü","[COM] halten + einschalten","install"]
+];
+
+/* ---------- LOGIK ---------- */
+const $=s=>document.querySelector(s),main=$("#main"),sheet=$("#sheet"),q=$("#q");
+const esc=s=>String(s).replace(/[&<>]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+const EN={b:"blau",g:"grün",w:"weiß",o:"orange"};
+const KL={left:"◀",right:"▶",lift:"lift",drop:"drop",scissors:"✂",metronome:"metronom",REC:"● rec",PLAY:"▶ play",STOP:"■ stop"};
+const CS={synth:"Synth",drum:"Drums",fx:"Effekt",play:"Spielen",tape:"Tape",sys:"System"};
+const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.7l5.9-.8z"/></svg>';
+function fmt(s){return esc(s||"").replace(/\[([^\]]+)\]/g,(m,k)=>`<kbd${k==="Shift"?' class="sh"':k==="REC"?' class="rec"':''}>${KL[k]||k}</kbd>`).replace(/\{([bgwo])\}/g,(m,k)=>`<span class="enc"><i class="knob ${k}"></i> ${EN[k]}</span>`)}
+const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
+let fav=new Set(store.get("op1ref-fav",[])),recent=store.get("op1ref-recent",[]),tab="start",cat="all";
+const TABS=["start","alle","favoriten","tasten"];
+const byId=id=>D.find(d=>d.id===id);
+D.forEach(d=>{d.hay=[d.n,d.t,d.o,CAT[d.c],(d.e||[]).flat().join(" "),(d.k||[]).flat().join(" "),(d.x||[]).join(" ")].join(" ").toLowerCase()});
+const starBtn=id=>`<button class="star ${fav.has(id)?"on":""}" data-fav="${id}" aria-label="${fav.has(id)?"Favorit entfernen":"Als Favorit merken"}" aria-pressed="${fav.has(id)}">${STAR}</button>`;
+const item=(d,showCat)=>`<div class="li" role="button" tabindex="0" data-open="${d.id}"><div class="tx"><b>${esc(d.n)}</b><span class="s">${esc(d.t)}</span></div>${showCat===true?`<span class="cat">${CS[d.c]}</span>`:""}${starBtn(d.id)}</div>`;
+const quick=x=>`<div class="li" role="button" tabindex="0" data-open="${x[2]}"><div class="tx"><b>${esc(x[0])}</b><div class="combo">${fmt(x[1])}</div></div><span class="go" aria-hidden="true">›</span></div>`;
+const list=a=>`<div class="list">${a.join("")}</div>`;
+function render(){
+  document.querySelectorAll("nav button").forEach(b=>{const on=b.dataset.tab===tab&&!q.value.trim();b.classList.toggle("on",on);on?b.setAttribute("aria-current","page"):b.removeAttribute("aria-current")});
+  const term=q.value.trim().toLowerCase();$("#qx").hidden=!term;
+  let h="";
+  if(term){
+    const words=term.split(/\s+/);
+    const hits=D.filter(d=>words.every(w=>d.hay.includes(w))).sort((a,b)=>(b.n.toLowerCase().includes(words[0])-a.n.toLowerCase().includes(words[0])));
+    const qh=Q.filter(x=>words.every(w=>(x[0]+" "+x[1]).toLowerCase().includes(w)));
+    const n=hits.length+qh.length;
+    if(!n)h=`<div class="empty"><b>Nichts gefunden</b>Probier den englischen Begriff vom Display, zum Beispiel „cutoff“ oder „reverb“.</div>`;
+    else{
+      h=`<h2>${n} Treffer</h2>`;
+      if(qh.length)h+=list(qh.map(quick))+(hits.length?`<h2>Einträge</h2>`:"");
+      if(hits.length)h+=list(hits.map(d=>item(d,true)));
+    }
+  }else if(tab==="start"){
+    h=`<h1 class="lead">Wo ist was?</h1><p class="sub">${D.length} Synths, Effekte und Werkzeuge deines Builds – mit Tastenweg und Encoder-Belegung.</p>`;
+    const fv=D.filter(d=>fav.has(d.id));
+    if(fv.length)h+=`<h2>Favoriten</h2><div class="keys">${fv.map(d=>`<button class="key" data-open="${d.id}">${esc(d.n)}</button>`).join("")}</div>`;
+    const rc=recent.map(byId).filter(d=>d&&!fav.has(d.id));
+    if(rc.length)h+=`<h2>Zuletzt angesehen</h2><div class="keys">${rc.map(d=>`<button class="key" data-open="${d.id}">${esc(d.n)}</button>`).join("")}</div>`;
+    h+=`<h2>Schnellzugriffe</h2>`+list(Q.map(quick))+foot();
+  }else if(tab==="alle"){
+    h=`<div class="keys"><button class="key ${cat==="all"?"on":""}" data-cat="all">Alle<small>${D.length}</small></button>${Object.keys(CAT).map(c=>`<button class="key ${cat===c?"on":""}" data-cat="${c}">${CAT[c]}<small>${D.filter(d=>d.c===c).length}</small></button>`).join("")}</div>`;
+    Object.keys(CAT).filter(c=>cat==="all"||cat===c).forEach(c=>{const a=D.filter(d=>d.c===c);h+=`<h2>${CAT[c]}<small>${a.length}</small></h2>`+list(a.map(d=>item(d)))});
+  }else if(tab==="favoriten"){
+    const fv=D.filter(d=>fav.has(d.id));
+    h=`<h1 class="lead">Favoriten</h1>`+(fv.length?`<p class="sub">Was du oft brauchst, mit dem Tastenweg auf einen Blick.</p>`+list(fv.map(d=>`<div class="li" role="button" tabindex="0" data-open="${d.id}"><div class="tx"><b>${esc(d.n)}</b><div class="combo">${fmt(d.o)}</div></div>${starBtn(d.id)}</div>`)):`<div class="empty"><b>Noch nichts gemerkt</b>Tippe bei einem Eintrag auf den Stern, dann liegt er hier und oben im Schnellzugriff.</div>`);
+  }else{
+    const L=(a)=>list(a.map(r=>`<div class="kr"><div class="c">${fmt(r[0])}</div><span class="d">${r[1]}</span></div>`));
+    h=`<h1 class="lead">Tasten lesen</h1><p class="sub">So sind die Angaben in dieser Referenz gemeint.</p>`+
+    L([["{b} {g} {w} {o}","Die vier Encoder von links nach rechts. Drehen ändert einen Wert, Drücken nutzt den Encoder als Taste."],
+       ["[Shift]+[help]","Shift halten und die zweite Taste drücken."],
+       ["[T1] [T2] [T3] [T4]","Die vier Tasten unter dem Display."],
+       ["[synth] [drum] [tape] [mixer]","Die vier Modus-Tasten."],
+       ["[COM]","Die Album-Taste oben rechts. COM ist ihre Shift-Funktion."],
+       ["[seq] [lift] [drop] [scissors]","Sequenzer-Taste und die drei Tape-Edit-Tasten."],
+       ["[REC] [PLAY] [STOP] [left] [right]","Transport und Pfeiltasten."],
+       ["Soundtasten 1–8","Die acht kleinen Nummerntasten rechts von T4. Sie speichern und laden Sounds."]])+
+    `<h2>Überall gleich</h2>`+
+    L([["[Shift]+[T1]","Synth- oder Drum-Typ wählen"],["[Shift]+[T3]","Effekt wählen"],["[Shift]+[T4]","LFO wählen"],["[Shift]+[seq]","Sequenzer wählen"],["[Shift]+[help]","Uhr oder Karte; von dort [T1] Monitor, [T3] Settings, [T4] Chord".replace(/\[(T\d)\]/g,"<kbd>$1</kbd>")]])+foot();
+  }
+  main.innerHTML=h;
+}
+function foot(){return `<p class="foot">Eigene deutsche Zusammenfassung zur hundekraft-Firmware 3.3.1 für die originale OP-1, keine vollständige Übersetzung. Reglernamen stehen wie auf dem Display. Ausführliche Texte und Bilder: <a href="${BASE}map">Original-Handbuch</a> des hundekraft-Projekts (GPL-3.0). Favoriten bleiben nur in diesem Browser gespeichert.</p>`}
+function detail(id){
+  const d=byId(id);if(!d)return;
+  recent=[id,...recent.filter(x=>x!==id)].slice(0,8);store.set("op1ref-recent",recent);
+  const cols=d.cols||[];
+  let h=`<div class="screen"><div class="bar"><button data-close aria-label="Zurück">‹ Zurück</button>${starBtn(id)}</div><span class="cat">${CAT[d.c]}</span><h3>${esc(d.n)}</h3><p>${esc(d.t)}</p><div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="det">`;
+  h+=`<h2>So kommst du hin</h2><div class="path">${fmt(d.o)}</div>`;
+  if(d.e){h+=`<h2>Encoder</h2><div class="list">`+d.e.map((r,i)=>{const k="bgwo"[i];let p="";for(let j=1;j<r.length;j++){if(!r[j]||r[j]==="–")continue;p+=`<p>${cols.length>1?`<em>${esc(cols[j-1]||"")}</em>`:""}${fmt(r[j])}</p>`}
+      return `<div class="er"><i class="knob big ${k}" role="img" aria-label="Encoder ${EN[k]}"></i><div class="b2"><div class="nm">${esc(r[0]||EN[k][0].toUpperCase()+EN[k].slice(1))}</div>${p}</div></div>`}).join("")+`</div>`}
+  if(d.k)h+=`<h2>Tasten und Kürzel</h2><div class="list">${d.k.map(r=>`<div class="kr"><div class="c">${fmt(r[0])}</div><span class="d">${fmt(r[1])}</span></div>`).join("")}</div>`;
+  if(d.x)h+=`<h2>Gut zu wissen</h2><div class="list"><ul class="n">${d.x.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div>`;
+  h+=`<a class="orig" href="${BASE}${d.id==="install"?"quick-start":d.id}">Im Original nachlesen (englisch)</a></div>`;
+  sheet.innerHTML=h;sheet.scrollTop=0;sheet.classList.add("open");sheet.setAttribute("aria-hidden","false");
+}
+function closeSheet(){sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");render()}
+function toggleFav(id){fav.has(id)?fav.delete(id):fav.add(id);store.set("op1ref-fav",[...fav])}
+document.addEventListener("click",e=>{
+  const f=e.target.closest("[data-fav]");if(f){e.stopPropagation();toggleFav(f.dataset.fav);const on=fav.has(f.dataset.fav);f.classList.toggle("on",on);f.setAttribute("aria-pressed",on);if(!sheet.classList.contains("open")&&tab==="favoriten"&&!q.value.trim())render();return}
+  if(e.target.closest("[data-close]")){closeSheet();return}
+  const o=e.target.closest("[data-open]");if(o){detail(o.dataset.open);return}
+  const c=e.target.closest("[data-cat]");if(c){cat=c.dataset.cat;render();return}
+  const t=e.target.closest("[data-tab]");if(t){tab=t.dataset.tab;q.value="";try{location.hash=tab}catch(_){}render();window.scrollTo(0,0);return}
+});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".li[data-open]")){e.preventDefault();detail(e.target.dataset.open)}if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
+q.addEventListener("input",()=>{render();window.scrollTo(0,0)});
+$("#qx").addEventListener("click",()=>{q.value="";render();q.focus()});
+let sx=0,sy=0;sheet.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
+sheet.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx,dy=Math.abs(e.changedTouches[0].clientY-sy);if(sx<40&&dx>70&&dy<60)closeSheet()},{passive:true});
+window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.includes(h)&&h!==tab){tab=h;render()}});
+const h0=location.hash.slice(1);if(TABS.includes(h0))tab=h0;
+render();
+
+</script>
+</body>
+</html>
