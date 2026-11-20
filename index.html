@@ -8,6 +8,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="OP-1 Referenz">
 <title>OP-1 hundekraft – Kurzreferenz</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="icon-180.png">
+<link rel="icon" type="image/png" href="icon-180.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:ital,wdth,wght@0,75..100,400..700;1,75..100,400..700&display=swap" rel="stylesheet">
@@ -19,7 +22,7 @@
   --disp:#0f1011;--disp-tx:#f1f2f2;--disp-mut:#8c9299;
   --b:#2b6fe3;--g:#2aa457;--w:#fbfbfa;--o:#f2601f;
   --cap:#f7f7f5;--cap-edge:#9a9fa4;
-  --ease:cubic-bezier(.22,.9,.3,1);
+  --ease:cubic-bezier(.22,.9,.3,1);--drawer:cubic-bezier(.32,.72,0,1);
   --f:"Instrument Sans",-apple-system,BlinkMacSystemFont,"Helvetica Neue",Arial,sans-serif;
 }
 *{box-sizing:border-box}
@@ -76,9 +79,9 @@ kbd.rec{color:#d8361c}
 /* ---- Listen ---- */
 .list{background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset;overflow:hidden}
 .li{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:12px 6px 12px 14px;min-height:60px;border:0;background:none;
-  border-top:1px solid var(--line);cursor:pointer;transition:background .12s}
+  border-top:1px solid var(--line);cursor:pointer;transition:background .12s,transform .12s var(--ease)}
 .li:first-child{border-top:0}
-.li:active{background:#dfe2e4}
+.li:active{background:#dfe2e4;transform:scale(.985)}
 .li .tx{flex:1;min-width:0}
 .li b{display:block;font-size:16.5px;font-weight:600;line-height:1.25}
 .li .s{display:block;color:var(--mut);font-size:14px;line-height:1.3;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
@@ -114,8 +117,8 @@ nav button.on::after{content:"";position:absolute;top:7px;right:8px;width:6px;he
 
 /* ---- Detailblatt ---- */
 #sheet{position:fixed;inset:0;z-index:10;height:100dvh;overflow-y:auto;overscroll-behavior:contain;-webkit-overflow-scrolling:touch;
-  background:linear-gradient(180deg,var(--alu-hi),var(--alu) 320px);transform:translateX(102%);transition:transform .32s var(--ease);visibility:hidden}
-#sheet.open{transform:none;visibility:visible}
+  background:linear-gradient(180deg,var(--alu-hi),var(--alu) 320px);transform:translateX(102%);transition:transform .2s var(--drawer),visibility 0s .2s;visibility:hidden}
+#sheet.open{transform:none;visibility:visible;transition:transform .26s var(--drawer)}
 .screen{background:var(--disp);color:var(--disp-tx);border-radius:0 0 26px 26px;
   padding:calc(6px + env(safe-area-inset-top)) calc(16px + env(safe-area-inset-right)) 22px calc(16px + env(safe-area-inset-left));box-shadow:0 12px 26px -16px #000b}
 .bar{display:flex;align-items:center;justify-content:space-between;margin:0 -8px 10px}
@@ -153,13 +156,6 @@ a.orig:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 
 /* ---- Ausführliche Anleitung (Übersetzung des Original-Handbuchs) ---- */
-.sw{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;margin-top:22px;min-height:60px;padding:10px 16px;border:0;text-align:left;font-weight:600;
-  background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset}
-.sw small{display:block;font-weight:400;color:var(--mut);font-size:13.5px;line-height:1.3;margin-top:2px}
-.sw i{flex:none;width:52px;height:32px;border-radius:16px;background:var(--alu-lo);position:relative;transition:background .2s}
-.sw i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0005;transition:transform .2s var(--ease)}
-.sw[aria-checked=true] i{background:var(--g)}
-.sw[aria-checked=true] i::after{transform:translateX(20px)}
 .hb{--kb:#8fc6f5;--kg:#70d28a;--kw:#fefafb;--ko:#fe813b;margin-top:12px;padding:16px 16px 6px;font-size:16px;line-height:1.55;overflow-wrap:break-word;
   background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset}
 .hb .hbmsg{color:var(--mut);margin:0 0 10px}
@@ -232,6 +228,45 @@ a.orig:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1
   .hb td{display:table-cell;width:auto;padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
   .hb td:not(:first-child):not(:empty)::before{content:none}
 }
+
+/* ---- Echte Tasten-Icons (dieselben wie im Handbuch) ---- */
+.okey{height:30px;width:auto;vertical-align:middle;margin:1px 1px}
+.okey-text{display:inline-flex;align-items:center;justify-content:center;box-sizing:border-box;height:30px;min-width:30px;padding:0 8px;margin:1px 1px;vertical-align:middle;
+  font:700 12.5px/1 var(--f);background:#fff;border:2px solid #252926;border-radius:6px;color:#252926;white-space:nowrap}
+.er .cap{width:46px;height:46px;flex:none;margin-top:0}
+.legend{display:grid;grid-template-columns:repeat(auto-fill,minmax(96px,1fr));gap:4px 8px;padding:12px 14px}
+.legend div{display:flex;align-items:center;gap:8px;font-size:14px;min-height:38px}
+/* ---- Umschalter Kurz | Ausführlich und Sprungleiste ---- */
+.segbar{position:sticky;top:env(safe-area-inset-top,0px);z-index:2;margin:0 -16px;padding:10px 16px 8px}
+.segbar.stuck{background:var(--alu-hi);box-shadow:0 1px 0 var(--line),0 8px 14px -12px #0006}
+.segbar.stuck::before{content:"";position:absolute;left:0;right:0;bottom:100%;height:env(safe-area-inset-top,0px);background:var(--alu-hi)}
+.seg{display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;border-radius:14px;background:#c9cdd1;box-shadow:inset 0 1px 2px #0003}
+.seg button{border:0;height:42px;border-radius:10px;background:none;font-weight:600;font-size:15.5px;color:var(--mut);transition:transform .12s var(--ease)}
+.seg button[aria-selected=true]{background:linear-gradient(180deg,#fff,var(--cap));color:var(--ink);box-shadow:0 0 0 1px var(--cap-edge),0 2px 0 0 var(--cap-edge)}
+.seg button:active{transform:scale(.97)}
+.chips{display:flex;gap:7px;overflow-x:auto;scrollbar-width:none;margin:8px -16px 0;padding:1px 16px 3px}
+.chips::-webkit-scrollbar{display:none}
+.chips[hidden]{display:none}
+.chip{flex:0 0 auto;border:0;height:34px;padding:0 13px;border-radius:17px;font-size:14px;font-weight:600;color:var(--ink);background:var(--panel);box-shadow:0 0 0 1px var(--line);transition:transform .12s var(--ease)}
+.chip:active{transform:scale(.95);background:#dfe2e4}
+#pane{margin-top:4px}
+#pane>.hb{margin-top:4px}
+.hb mark{background:#ffd98a;color:inherit;border-radius:3px;padding:0 2px}
+.hb .m-screen>img{cursor:zoom-in}
+/* ---- Zurück in Daumenreichweite ---- */
+.backbar{position:sticky;bottom:0;z-index:3;display:flex;pointer-events:none;padding:0 calc(16px + env(safe-area-inset-right)) calc(14px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left))}
+.backbar button{pointer-events:auto;border:0;height:52px;padding:0 22px 0 16px;border-radius:14px;font-weight:600;font-size:16px;color:var(--ink);
+  background:linear-gradient(180deg,#fff,var(--cap));box-shadow:0 0 0 1px var(--cap-edge),0 4px 0 0 var(--cap-edge),0 10px 18px -8px #0007;transition:transform .1s,box-shadow .1s}
+.backbar button:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1px 0 0 var(--cap-edge)}
+/* ---- Großansicht der Bildschirmfotos ---- */
+#lb{position:fixed;inset:0;z-index:30;background:#000e;display:flex;flex-direction:column;opacity:0;visibility:hidden;transition:opacity .18s ease,visibility 0s .18s}
+#lb.open{opacity:1;visibility:visible;transition:opacity .18s ease}
+#lb .lbs{flex:1;min-height:0;overflow:auto;display:flex;-webkit-overflow-scrolling:touch}
+#lb img{display:block;width:100%;height:auto;margin:auto;flex:none;cursor:zoom-in;transition:width .22s var(--drawer)}
+#lb.zoom img{width:240%;cursor:zoom-out}
+#lb p{margin:0;padding:12px calc(16px + env(safe-area-inset-right)) calc(16px + env(safe-area-inset-bottom)) calc(16px + env(safe-area-inset-left));color:#d5d8da;font-size:14.5px;line-height:1.45}
+#lb p small{display:block;color:#8c9299;margin-top:4px}
+#lb button{align-self:flex-end;margin:calc(6px + env(safe-area-inset-top)) 8px 0 0;width:48px;height:48px;border:0;background:none;color:#fff;font-size:24px}
 </style>
 </head>
 <body>
@@ -247,6 +282,8 @@ a.orig:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1
   <button data-tab="tasten"><svg viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2.5"/><path d="M7 10h.01M11 10h.01M15 10h.01M8 14h8"/></svg>Tasten</button>
 </div></nav>
 <div id="sheet" aria-hidden="true"></div>
+<div id="lb" aria-hidden="true"><button data-lbx aria-label="Schließen">✕</button><div class="lbs"><img alt=""></div><p></p></div>
+<label id="hap" aria-hidden="true" style="position:absolute;width:0;height:0;overflow:hidden;opacity:0;pointer-events:none"><input type="checkbox" switch tabindex="-1"></label>
 <script>
 const BASE="https://hundekraft.github.io/op1-workshop/manual.html?version=3.0&without=bitcrush,blot,brassophone,dddd,father,grids,hollowsaint,juni,juni_chorus,nostromo,plate_o,ploc,steve,vapora#";
 const CAT={synth:"Synths",drum:"Drums",fx:"Effekte",play:"Spielen & Sequenzer",tape:"Tape & Sampler",sys:"System & MIDI"};
@@ -451,7 +488,10 @@ const EN={b:"blau",g:"grün",w:"weiß",o:"orange"};
 const KL={left:"◀",right:"▶",lift:"lift",drop:"drop",scissors:"✂",metronome:"metronom",REC:"● rec",PLAY:"▶ play",STOP:"■ stop"};
 const CS={synth:"Synth",drum:"Drums",fx:"Effekt",play:"Spielen",tape:"Tape",sys:"System"};
 const STAR='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3.5l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 17l-5.2 2.7 1-5.9L3.5 9.7l5.9-.8z"/></svg>';
-function fmt(s){return esc(s||"").replace(/\[([^\]]+)\]/g,(m,k)=>`<kbd${k==="Shift"?' class="sh"':k==="REC"?' class="rec"':''}>${KL[k]||k}</kbd>`).replace(/\{([bgwo])\}/g,(m,k)=>`<span class="enc"><i class="knob ${k}"></i> ${EN[k]}</span>`)}
+const KIMG=new Set(["PLAY","REC","STOP","T1","T2","T3","T4","drop","drum","help","left","lift","metronome","mixer","right","scissors","seq","synth","tape"]);
+const KNAME={PLAY:"Play",REC:"Rec",STOP:"Stop",left:"Pfeil links",right:"Pfeil rechts",scissors:"Schere",metronome:"Metronom",help:"Help",seq:"Sequenzer",lift:"Lift",drop:"Drop",mixer:"Mixer",synth:"Synth",drum:"Drum",tape:"Tape"};
+const keyIcon=k=>KIMG.has(k)?`<img class="okey" src="manual/keys/${k}.png" alt="${KNAME[k]||k}" title="${KNAME[k]||k}">`:`<span class="okey-text">${k}</span>`;
+function fmt(s){return esc(s||"").replace(/\[([^\]]+)\]/g,(m,k)=>keyIcon(k)).replace(/\{([bgwo])\}/g,(m,k)=>`<span class="enc"><i class="knob ${k}"></i> ${EN[k]}</span>`)}
 const store={get(k,d){try{const v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}},set(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}};
 let fav=new Set(store.get("op1ref-fav",[])),recent=store.get("op1ref-recent",[]),tab="start",cat="all";
 const TABS=["start","alle","favoriten","tasten"];
@@ -469,12 +509,19 @@ function render(){
     const words=term.split(/\s+/);
     const hits=D.filter(d=>words.every(w=>d.hay.includes(w))).sort((a,b)=>(b.n.toLowerCase().includes(words[0])-a.n.toLowerCase().includes(words[0])));
     const qh=Q.filter(x=>words.every(w=>(x[0]+" "+x[1]).toLowerCase().includes(w)));
-    const n=hits.length+qh.length;
+    let lh=[];
+    if(term.length>=3){
+      if(!window.HB)loadHB(ok=>{if(ok&&q.value.trim().toLowerCase()===term)render()});
+      else lh=D.filter(d=>!hits.includes(d)&&words.every(w=>hbText(d.id).toLowerCase().includes(w)));
+    }
+    const n=hits.length+qh.length+lh.length;
     if(!n)h=`<div class="empty"><b>Nichts gefunden</b>Probier den englischen Begriff vom Display, zum Beispiel „cutoff“ oder „reverb“.</div>`;
     else{
       h=`<h2>${n} Treffer</h2>`;
       if(qh.length)h+=list(qh.map(quick))+(hits.length?`<h2>Einträge</h2>`:"");
       if(hits.length)h+=list(hits.map(d=>item(d,true)));
+      if(lh.length)h+=`<h2>Im ausführlichen Text</h2>`+list(lh.map(d=>{const tx=hbText(d.id),i=Math.max(0,tx.toLowerCase().indexOf(words[0])-40);
+        return `<div class="li" role="button" tabindex="0" data-open="${d.id}" data-find="${esc(words[0])}"><div class="tx"><b>${esc(d.n)}</b><span class="s">${i?"… ":""}${esc(tx.slice(i,i+110))} …</span></div><span class="go" aria-hidden="true">›</span></div>`}));
     }
   }else if(tab==="start"){
     h=`<h1 class="lead">Wo ist was?</h1><p class="sub">${D.length} Synths, Effekte und Werkzeuge deines Builds – mit Tastenweg und Encoder-Belegung.</p>`;
@@ -500,19 +547,17 @@ function render(){
        ["[seq] [lift] [drop] [scissors]","Sequenzer-Taste und die drei Tape-Edit-Tasten."],
        ["[REC] [PLAY] [STOP] [left] [right]","Transport und Pfeiltasten."],
        ["Soundtasten 1–8","Die acht kleinen Nummerntasten rechts von T4. Sie speichern und laden Sounds."]])+
+    `<h2>Die Tasten-Symbole</h2><div class="list"><div class="legend">${[...KIMG].map(k=>`<div>${keyIcon(k)}<span>${KNAME[k]||k}</span></div>`).join("")}</div></div>`+
     `<h2>Aus dem Handbuch</h2>`+list([`<div class="li" role="button" tabindex="0" data-open="notation"><div class="tx"><b>Angaben lesen, ausführlich</b><span class="s">Tasten, Encoder und Schreibweisen mit den Bildern aus dem Handbuch</span></div><span class="go" aria-hidden="true">›</span></div>`])+
     `<h2>Überall gleich</h2>`+
-    L([["[Shift]+[T1]","Synth- oder Drum-Typ wählen"],["[Shift]+[T3]","Effekt wählen"],["[Shift]+[T4]","LFO wählen"],["[Shift]+[seq]","Sequenzer wählen"],["[Shift]+[help]","Uhr oder Karte; von dort [T1] Monitor, [T3] Settings, [T4] Chord".replace(/\[(T\d)\]/g,"<kbd>$1</kbd>")]])+foot();
+    L([["[Shift]+[T1]","Synth- oder Drum-Typ wählen"],["[Shift]+[T3]","Effekt wählen"],["[Shift]+[T4]","LFO wählen"],["[Shift]+[seq]","Sequenzer wählen"],["[Shift]+[help]",fmt("Uhr oder Karte; von dort [T1] Monitor, [T3] Settings, [T4] Chord")]])+foot();
   }
   main.innerHTML=h;
 }
-function foot(){return `<p class="foot">Deutsche Kurzreferenz zur hundekraft-Firmware 3.3.1 für die originale OP-1. Reglernamen stehen wie auf dem Display. In jedem Eintrag lässt sich die ausführliche Anleitung zuschalten: der übersetzte Text samt Bildern aus dem <a href="${BASE}map">Original-Handbuch</a> des hundekraft-Projekts (GPL-3.0). Favoriten bleiben nur in diesem Browser gespeichert.</p>`}
-/* Ausführliche Anleitung: Texte liegen in anleitung.js und werden erst beim ersten Einschalten geladen. */
+function foot(){return `<p class="foot">Deutsche Kurzreferenz zur hundekraft-Firmware 3.3.1 für die originale OP-1. Reglernamen stehen wie auf dem Display. In jedem Eintrag lässt sich oben auf „Ausführlich“ umschalten: der übersetzte Text samt Bildern aus dem <a href="${BASE}map">Original-Handbuch</a> des hundekraft-Projekts (GPL-3.0). Favoriten bleiben nur in diesem Browser gespeichert.</p>`}
+/* Ausführliche Anleitung: Texte liegen in anleitung.js und werden erst beim ersten Gebrauch geladen. */
 const NOTATION={id:"notation",n:"Angaben lesen",t:"So sind Tasten, Encoder und Schreibweisen im Handbuch gemeint.",only:true};
-let long=store.get("op1ref-long",false),cur=null,trail=[],hbState=0,hbWait=[],anch=null,pendAt=null;
-/* Sprungmarken innerhalb der Abschnitte (Zwischenüberschriften) auf ihren Eintrag abbilden */
-function anchOf(t){if(!anch){anch={};for(const k in HB)(HB[k].match(/ id="[^"]+"/g)||[]).forEach(m=>{anch[m.slice(5,-1)]=k})}return anch[t]}
-function jumpTo(at){const el=at&&sheet.querySelector(".hb #"+CSS.escape(at));if(el)sheet.scrollTop+=el.getBoundingClientRect().top-70}
+let long=store.get("op1ref-long",false),view=false,cur=null,trail=[],hbState=0,hbWait=[],anch=null,pendAt=null,pendFind=null,jumps=[],HBT={},wl=null;
 function loadHB(cb){
   if(window.HB)return cb(true);
   hbWait.push(cb);if(hbState===1)return;hbState=1;
@@ -520,64 +565,136 @@ function loadHB(cb){
   const done=ok=>{hbState=0;if(!ok)s.remove();hbWait.splice(0).forEach(f=>f(ok))};
   s.onload=()=>done(!!window.HB);s.onerror=()=>done(false);document.head.appendChild(s);
 }
+const hbText=id=>HBT[id]||(HBT[id]=(HB[id]||"").replace(/<[^>]+>/g," ").replace(/&[a-z#0-9]+;/gi," ").replace(/\s+/g," "));
+/* Sprungmarken innerhalb der Abschnitte (Zwischenüberschriften) auf ihren Eintrag abbilden */
+function anchOf(t){if(!anch){anch={};for(const k in HB)(HB[k].match(/ id="[^"]+"/g)||[]).forEach(m=>{anch[m.slice(5,-1)]=k})}return anch[t]}
+function scrollToEl(el){if(!el)return;const bar=sheet.querySelector(".segbar");sheet.scrollTop+=el.getBoundingClientRect().top-(bar?bar.getBoundingClientRect().height+(parseFloat(getComputedStyle(bar).top)||0):0)-12}
+function jumpTo(at){scrollToEl(at&&sheet.querySelector(".hb #"+CSS.escape(at)))}
+/* Kurzer Tick: Android über vibrate, iPhone über den nativen Schalter (wirkt nur auf neueren iOS-Versionen) */
+function tick(){try{navigator.vibrate&&navigator.vibrate(8)}catch(e){}try{$("#hap").click()}catch(e){}}
+async function wake(on){try{if(on&&!wl&&navigator.wakeLock){wl=await navigator.wakeLock.request("screen");wl.addEventListener("release",()=>{wl=null})}else if(!on&&wl){const w=wl;wl=null;await w.release()}}catch(e){}}
+/* Sprungleiste aus dem Aufbau des Abschnitts: Encoder-Karten, Tabellen, Zwischenüberschriften */
+const GEN=/^(encoder|tasten?|bedienung|bedienelement|drehen|drücken|wirkung|funktion|was passiert|name|werte|zeile|parameter|einstellung|seite|ansicht)$/i;
+function tableName(el){const th=[...el.querySelectorAll("th")].map(x=>x.textContent.trim());return th.find(x=>x&&!GEN.test(x)&&!/shift/i.test(x))||th[0]||""}
+function buildChips(box){
+  const bar=sheet.querySelector(".chips");if(!bar)return;jumps=[];const seen={};
+  box.querySelectorAll(".m-enccards,h4,.m-table").forEach(el=>{
+    let n=el.matches("h4")?el.textContent.trim():el.matches(".m-enccards")?"Encoder":tableName(el);
+    if(!n||el.closest(".m-recipes-wrap")&&!el.matches("h4"))return;
+    const last=jumps[jumps.length-1];/* Tabelle direkt unter ihrer Überschrift: ein Chip genügt */
+    if(!el.matches("h4")&&last&&last[1].matches("h4")&&el.getBoundingClientRect().top-last[1].getBoundingClientRect().bottom<260)return;
+    if(n.length>24)n=n.slice(0,22).trim()+"…";
+    seen[n]=(seen[n]||0)+1;if(seen[n]>1)n+=" "+seen[n];
+    jumps.push([n,el]);
+  });
+  const tall=box.getBoundingClientRect().height>innerHeight*2;
+  bar.hidden=!(tall&&jumps.length>1);
+  bar.innerHTML=bar.hidden?"":`<button class="chip" data-jump="-1">Anfang</button>`+jumps.map((j,i)=>`<button class="chip" data-jump="${i}">${esc(j[0])}</button>`).join("");
+}
+function markFind(box,word){
+  const w=document.createTreeWalker(box,NodeFilter.SHOW_TEXT);let n;
+  while((n=w.nextNode())){const i=n.nodeValue.toLowerCase().indexOf(word);if(i<0)continue;
+    const r=document.createRange();r.setStart(n,i);r.setEnd(n,i+word.length);const m=document.createElement("mark");
+    try{r.surroundContents(m)}catch(e){return}scrollToEl(m);return}
+}
 function fillHB(){
   const el=sheet.querySelector(".hb");if(!el)return;const id=el.dataset.id;
   el.innerHTML='<p class="hbmsg">Anleitung wird geladen …</p>';
   loadHB(ok=>{
     const box=sheet.querySelector(".hb");if(!box||box.dataset.id!==id)return;
     const h=ok&&HB[id];
-    if(!h){box.innerHTML=`<p class="hbmsg">${ok?"Zu diesem Eintrag gibt es keinen ausführlichen Text.":"Die Anleitung ließ sich nicht laden. Prüfe die Verbindung und schalte sie noch einmal ein."}</p>`;return}
+    if(!h){box.innerHTML=`<p class="hbmsg">${ok?"Zu diesem Eintrag gibt es keinen ausführlichen Text.":"Die Anleitung ließ sich nicht laden. Prüfe die Verbindung und tippe noch einmal auf „Ausführlich“."}</p>`;return}
     box.innerHTML=h;
     box.querySelectorAll('a[href^="#"]').forEach(a=>{const t=a.getAttribute("href").slice(1);
       if(byId(t)||HB[t])a.dataset.open=t;else if(anchOf(t)){a.dataset.open=anchOf(t);a.dataset.at=t}else{a.href=BASE+t;a.target="_blank";a.rel="noopener";a.classList.add("ext");a.title="Abschnitt im englischen Original"}});
+    buildChips(box);
     if(pendAt){jumpTo(pendAt);pendAt=null}
+    if(pendFind){markFind(box,pendFind);pendFind=null}
   });
 }
-function detail(id,back){
-  const d=byId(id)||(id==="notation"?NOTATION:null);if(!d)return;
-  if(!back&&cur&&cur!==id&&sheet.classList.contains("open"))trail.push(cur);
-  cur=id;
-  if(!d.only){recent=[id,...recent.filter(x=>x!==id)].slice(0,8);store.set("op1ref-recent",recent)}
+function pane(d,id){
+  if(view||d.only)return `<div class="hb" data-id="${id}"></div>`;
   const cols=d.cols||[];
-  let h=`<div class="screen"><div class="bar"><button data-close aria-label="Zurück">‹ Zurück</button>${d.only?"":starBtn(id)}</div><span class="cat">${d.only?"Handbuch":CAT[d.c]}</span><h3>${esc(d.n)}</h3><p>${esc(d.t)}</p><div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="det">`;
-  if(!d.only)h+=`<h2>So kommst du hin</h2><div class="path">${fmt(d.o)}</div>`;
+  let h=`<h2>So kommst du hin</h2><div class="path">${fmt(d.o)}</div>`;
   if(d.e){h+=`<h2>Encoder</h2><div class="list">`+d.e.map((r,i)=>{const k="bgwo"[i];let p="";for(let j=1;j<r.length;j++){if(!r[j]||r[j]==="–")continue;p+=`<p>${cols.length>1?`<em>${esc(cols[j-1]||"")}</em>`:""}${fmt(r[j])}</p>`}
-      return `<div class="er"><i class="knob big ${k}" role="img" aria-label="Encoder ${EN[k]}"></i><div class="b2"><div class="nm">${esc(r[0]||EN[k][0].toUpperCase()+EN[k].slice(1))}</div>${p}</div></div>`}).join("")+`</div>`}
+      return `<div class="er"><img class="cap" src="manual/keys/knob-${k}.png" alt="Encoder ${EN[k]}"><div class="b2"><div class="nm">${esc(r[0]||EN[k][0].toUpperCase()+EN[k].slice(1))}</div>${p}</div></div>`}).join("")+`</div>`}
   if(d.k)h+=`<h2>Tasten und Kürzel</h2><div class="list">${d.k.map(r=>`<div class="kr"><div class="c">${fmt(r[0])}</div><span class="d">${fmt(r[1])}</span></div>`).join("")}</div>`;
   if(d.x)h+=`<h2>Gut zu wissen</h2><div class="list"><ul class="n">${d.x.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div>`;
-  if(!d.only)h+=`<button class="sw" role="switch" aria-checked="${long}" data-long><span>Ausführliche Anleitung<small>Der ganze Handbuchtext auf Deutsch, mit Bildern</small></span><i aria-hidden="true"></i></button>`;
-  if(long||d.only)h+=`<div class="hb" data-id="${id}"></div>`;
+  return h;
+}
+function detail(id,back,force){
+  const d=byId(id)||(id==="notation"?NOTATION:null);if(!d)return;
+  if(!back&&cur&&cur!==id&&sheet.classList.contains("open"))trail.push(cur);
+  cur=id;view=!!(d.only||force||long);
+  if(!d.only){recent=[id,...recent.filter(x=>x!==id)].slice(0,8);store.set("op1ref-recent",recent)}
+  let h=`<div class="screen"><div class="bar"><button data-close aria-label="Zurück">‹ Zurück</button>${d.only?"":starBtn(id)}</div><span class="cat">${d.only?"Handbuch":CAT[d.c]}</span><h3>${esc(d.n)}</h3><p>${esc(d.t)}</p><div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="det">`;
+  h+=`<div class="segbar">${d.only?"":`<div class="seg" role="tablist" aria-label="Ansicht"><button role="tab" data-mode="0" aria-selected="${!view}">Kurz</button><button role="tab" data-mode="1" aria-selected="${view}">Ausführlich</button></div>`}<div class="chips" hidden></div></div>`;
+  h+=`<div id="pane">${pane(d,id)}</div>`;
   h+=`<p class="foot">Ausführlicher Text: deutsche Übersetzung aus dem <a href="${BASE}${id}" target="_blank" rel="noopener">Original-Handbuch</a> (englisch) des hundekraft-Projekts, GPL-3.0.</p></div>`;
+  h+=`<div class="backbar"><button data-close>‹ Zurück</button></div>`;
   sheet.innerHTML=h;sheet.scrollTop=0;sheet.classList.add("open");sheet.setAttribute("aria-hidden","false");
+  wake(true);fillHB();
+}
+function setMode(m){
+  if(m===view)return;view=long=m;store.set("op1ref-long",long);tick();
+  sheet.querySelectorAll(".seg button").forEach(b=>b.setAttribute("aria-selected",String((b.dataset.mode==="1")===m)));
+  const bar=sheet.querySelector(".segbar"),chips=sheet.querySelector(".chips");chips.hidden=true;chips.innerHTML="";
+  $("#pane").innerHTML=pane(byId(cur),cur);
+  if(bar.classList.contains("stuck"))sheet.scrollTop=bar.offsetTop-parseFloat(getComputedStyle(bar).top||0)+1;
   fillHB();
 }
-function toggleLong(btn){
-  long=!long;store.set("op1ref-long",long);btn.setAttribute("aria-checked",long);
-  const old=sheet.querySelector(".hb");
-  if(!long){if(old)old.remove();return}
-  if(!old)btn.insertAdjacentHTML("afterend",`<div class="hb" data-id="${cur}"></div>`);
-  fillHB();
+function openLB(img){
+  const lb=$("#lb"),cap=img.closest("figure").querySelector("figcaption");
+  lb.querySelector("img").src=img.currentSrc||img.src;lb.querySelector("img").alt=img.alt;
+  lb.querySelector("p").innerHTML=(cap?cap.innerHTML:"")+`<small>Tippen vergrößert, noch einmal tippen verkleinert.</small>`;
+  lb.classList.remove("zoom");lb.classList.add("open");lb.setAttribute("aria-hidden","false");
 }
+function closeLB(){const lb=$("#lb");lb.classList.remove("open","zoom");lb.setAttribute("aria-hidden","true")}
 function closeSheet(){
   if(trail.length){detail(trail.pop(),true);return}
-  cur=null;sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");render()}
-function toggleFav(id){fav.has(id)?fav.delete(id):fav.add(id);store.set("op1ref-fav",[...fav])}
+  cur=null;sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");wake(false);render()}
+sheet.addEventListener("scroll",()=>{const b=sheet.querySelector(".segbar");if(b)b.classList.toggle("stuck",b.getBoundingClientRect().top<=parseFloat(getComputedStyle(b).top||0)+.5)},{passive:true});
+document.addEventListener("visibilitychange",()=>{if(document.visibilityState==="visible"&&sheet.classList.contains("open"))wake(true)});
+function toggleFav(id){fav.has(id)?fav.delete(id):fav.add(id);store.set("op1ref-fav",[...fav]);tick()}
 document.addEventListener("click",e=>{
   const f=e.target.closest("[data-fav]");if(f){e.stopPropagation();toggleFav(f.dataset.fav);const on=fav.has(f.dataset.fav);f.classList.toggle("on",on);f.setAttribute("aria-pressed",on);if(!sheet.classList.contains("open")&&tab==="favoriten"&&!q.value.trim())render();return}
+  if(e.target.closest("#hap"))return;
+  const lb=e.target.closest("#lb");if(lb){if(e.target.matches("#lb img"))lb.classList.toggle("zoom");else if(!e.target.closest("#lb p"))closeLB();return}
   if(e.target.closest("[data-close]")){closeSheet();return}
-  const lg=e.target.closest("[data-long]");if(lg){toggleLong(lg);return}
-  const o=e.target.closest("[data-open]");if(o){e.preventDefault();const at=o.dataset.at||null;if(at&&o.dataset.open===cur){jumpTo(at);return}pendAt=at;detail(o.dataset.open);return}
+  const md=e.target.closest("[data-mode]");if(md){setMode(md.dataset.mode==="1");return}
+  const jp=e.target.closest("[data-jump]");if(jp){const k=+jp.dataset.jump;if(k<0)sheet.scrollTop=sheet.querySelector(".segbar").offsetTop;else scrollToEl(jumps[k]&&jumps[k][1]);return}
+  const zi=e.target.closest(".hb .m-screen>img");if(zi){openLB(zi);return}
+  const o=e.target.closest("[data-open]");if(o){e.preventDefault();const at=o.dataset.at||null;if(at&&o.dataset.open===cur){jumpTo(at);return}pendAt=at;pendFind=o.dataset.find||null;detail(o.dataset.open,false,!!(at||pendFind));return}
   const c=e.target.closest("[data-cat]");if(c){cat=c.dataset.cat;render();return}
   const t=e.target.closest("[data-tab]");if(t){trail=[];tab=t.dataset.tab;q.value="";try{location.hash=tab}catch(_){}render();window.scrollTo(0,0);return}
 });
-document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".li[data-open]")){e.preventDefault();detail(e.target.dataset.open)}if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
+document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".li[data-open]")){e.preventDefault();detail(e.target.dataset.open)}if(e.key==="Escape"){if($("#lb").classList.contains("open"))closeLB();else if(sheet.classList.contains("open"))closeSheet()}});
 q.addEventListener("input",()=>{render();window.scrollTo(0,0)});
 $("#qx").addEventListener("click",()=>{q.value="";render();q.focus()});
-let sx=0,sy=0;sheet.addEventListener("touchstart",e=>{sx=e.touches[0].clientX;sy=e.touches[0].clientY},{passive:true});
-sheet.addEventListener("touchend",e=>{const dx=e.changedTouches[0].clientX-sx,dy=Math.abs(e.changedTouches[0].clientY-sy);if(sx<40&&dx>70&&dy<60)closeSheet()},{passive:true});
+/* Zurückwischen vom linken Rand: das Blatt folgt dem Finger, ein kurzer Schwung genügt */
+let sx=0,sy=0,st=0,drag=0;
+sheet.addEventListener("touchstart",e=>{if(e.touches.length>1){drag=0;return}sx=e.touches[0].clientX;sy=e.touches[0].clientY;st=e.timeStamp;drag=sx<32?1:0},{passive:true});
+sheet.addEventListener("touchmove",e=>{if(!drag)return;const dx=e.touches[0].clientX-sx,dy=Math.abs(e.touches[0].clientY-sy);
+  if(drag===1){if(dy>12&&dy>dx){drag=0;return}if(dx>10)drag=2;else return}
+  sheet.style.transition="none";sheet.style.transform=`translateX(${Math.max(0,dx)}px)`},{passive:true});
+const dragEnd=e=>{if(drag!==2){drag=0;return}drag=0;const dx=e.changedTouches[0].clientX-sx,v=dx/Math.max(1,e.timeStamp-st);
+  sheet.style.transition="";sheet.style.transform="";
+  if(e.type==="touchend"&&(dx>innerWidth*.35||v>.45))closeSheet()};
+sheet.addEventListener("touchend",dragEnd,{passive:true});sheet.addEventListener("touchcancel",dragEnd,{passive:true});
 window.addEventListener("hashchange",()=>{const h=location.hash.slice(1);if(TABS.includes(h)&&h!==tab){tab=h;render()}});
 const h0=location.hash.slice(1);if(TABS.includes(h0))tab=h0;
 render();
+/* Offline-Betrieb: Der Service Worker sichert die App; die Bilder der Anleitung werden einmalig im Hintergrund nachgeladen. */
+const OFF="op1ref-v1";
+if("serviceWorker" in navigator&&/^https?:$/.test(location.protocol)){
+  navigator.serviceWorker.register("sw.js").then(()=>{
+    if(store.get("op1ref-offline",null)===OFF||!("caches" in window))return;
+    setTimeout(()=>loadHB(async ok=>{if(!ok)return;
+      try{const c=await caches.open(OFF),urls=[...new Set(Object.values(HB).join("").match(/manual\/[a-z]+\/[^"?]+\.png/g)||[])];
+        for(const u of urls){if(!(await c.match(u)))await c.add(u)}
+        store.set("op1ref-offline",OFF)}catch(e){}}),4000);
+  }).catch(()=>{});
+}
 
 </script>
 </body>

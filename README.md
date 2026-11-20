@@ -5,8 +5,10 @@ Deutsche Kurzreferenz zur [hundekraft-Firmware 3.3.1](https://hundekraft.github.
 - 91 Einträge: Synths, Drums, Effekte, Sequenzer, Tape, System und MIDI
 - Schnellzugriffe mit Tastenweg, Encoder-Belegung in den vier Farben
 - Suche (deutsch und Display-Begriffe), Favoriten, zuletzt angesehen
-- Ausführliche Anleitung je Eintrag zuschaltbar: der Handbuchtext auf Deutsch, mit den Tasten-Icons und Bildschirmfotos des Originals
-- Kein Build-Schritt: `index.html` (App), `anleitung.js` (ausführliche Texte, wird erst beim Einschalten geladen), `manual/` (Bilder)
+- Je Eintrag umschaltbar zwischen „Kurz“ und „Ausführlich“: der Handbuchtext auf Deutsch, mit den Tasten-Icons und Bildschirmfotos des Originals, Sprungleiste und Großansicht der Bilder
+- Die Suche findet auch Stellen im ausführlichen Text
+- Läuft nach dem ersten Laden ohne Netz (Service Worker), mit eigenem App-Icon; das Display bleibt an, solange ein Eintrag offen ist
+- Kein Build-Schritt: `index.html` (App), `anleitung.js` (ausführliche Texte, wird erst beim Einschalten geladen), `manual/` (Bilder), `sw.js` und `manifest.webmanifest` (Offline-Betrieb, App-Icon)
 
 ## Benutzen
 
