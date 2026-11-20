@@ -151,6 +151,87 @@ a.orig:active{transform:translateY(3px);box-shadow:0 0 0 1px var(--cap-edge),0 1
 .foot a{color:inherit}
 @media (hover:hover) and (pointer:fine){.li:hover{background:#e3e6e8}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+/* ---- Ausführliche Anleitung (Übersetzung des Original-Handbuchs) ---- */
+.sw{display:flex;align-items:center;justify-content:space-between;gap:14px;width:100%;margin-top:22px;min-height:60px;padding:10px 16px;border:0;text-align:left;font-weight:600;
+  background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset}
+.sw small{display:block;font-weight:400;color:var(--mut);font-size:13.5px;line-height:1.3;margin-top:2px}
+.sw i{flex:none;width:52px;height:32px;border-radius:16px;background:var(--alu-lo);position:relative;transition:background .2s}
+.sw i::after{content:"";position:absolute;top:3px;left:3px;width:26px;height:26px;border-radius:50%;background:#fff;box-shadow:0 1px 3px #0005;transition:transform .2s var(--ease)}
+.sw[aria-checked=true] i{background:var(--g)}
+.sw[aria-checked=true] i::after{transform:translateX(20px)}
+.hb{--kb:#8fc6f5;--kg:#70d28a;--kw:#fefafb;--ko:#fe813b;margin-top:12px;padding:16px 16px 6px;font-size:16px;line-height:1.55;overflow-wrap:break-word;
+  background:var(--panel);border-radius:18px;box-shadow:0 0 0 1px var(--line),0 1px 0 1px #fff inset}
+.hb .hbmsg{color:var(--mut);margin:0 0 10px}
+.hb .m-sub>h3{display:none}
+.hb p{margin:0 0 12px}
+.hb h4{font-size:18px;font-weight:700;font-stretch:88%;line-height:1.25;margin:24px 0 8px}
+.hb ul,.hb ol{margin:0 0 14px;padding-left:22px}
+.hb li{margin:0 0 6px}
+.hb a{color:inherit;text-decoration-color:var(--cap-edge);text-underline-offset:3px;font-weight:600}
+.hb a.ext::after{content:" ↗";font-weight:400}
+.hb code{font:13px ui-monospace,Menlo,monospace;background:#dde0e2;padding:1px 5px;border-radius:4px}
+.hb .m-tagline{color:var(--mut);font-size:14.5px;margin:0 0 12px}
+.hb .m-loadline{display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin:0 0 16px}
+.hb .m-loadline em{font-style:normal;font-size:12px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:var(--mut);margin-right:4px}
+.hb .m-loadline span:not(.m-okey){color:var(--mut)}
+.hb .m-okey{height:1.9em;width:auto;vertical-align:middle;margin:0 .1em}
+.hb .m-okey-text{display:inline-flex;align-items:center;justify-content:center;font:700 .78em/1 var(--f);height:2.44em;min-width:2.44em;padding:0 .55em;margin:0 .13em;
+  background:#fff;border:2px solid #252926;border-radius:.45em;color:#252926}
+.hb p:has(.m-okey),.hb li:has(.m-okey),.hb td:has(.m-okey),.hb figcaption:has(.m-okey){line-height:2.2}
+.hb .m-loadline .m-okey{height:34px;margin:0}
+.hb .m-loadline .m-okey-text{height:34px;min-width:34px;font-size:13px}
+.hb .m-enc{font-weight:600;white-space:nowrap}
+.hb .m-enc::before{content:"";display:inline-block;width:11px;height:11px;border-radius:50%;margin:0 5px 0 1px;vertical-align:-1px;background:var(--c);box-shadow:0 0 0 1px #2529268c inset}
+.hb .m-enc-b,.hb .m-dot-b{--c:var(--kb)}.hb .m-enc-g,.hb .m-dot-g{--c:var(--kg)}.hb .m-enc-w,.hb .m-dot-w{--c:var(--kw)}.hb .m-enc-o,.hb .m-dot-o{--c:var(--ko)}.hb .m-dot-n{--c:#a9a6e6}
+.hb .m-knobchip{display:inline-block;font-weight:600;padding:1px 10px 2px;border-radius:100px;background:var(--c);box-shadow:0 0 0 1px #25292673 inset;white-space:nowrap}
+.hb .m-note{border-left:3px solid var(--c);background:#dfe2e4;border-radius:0 10px 10px 0;padding:10px 14px;margin:8px 0 16px;font-size:15px}
+.hb .m-note>span{display:block;font-size:11.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--c);margin-bottom:2px}
+.hb .m-note p{margin:0}
+.hb .m-note-tip{--c:#2f7d3a}.hb .m-note-note{--c:#2b6fe3}.hb .m-note-warning{--c:#b4530c}
+.hb .m-screen{margin:10px 0 22px}
+.hb .m-screen>img{display:block;width:100%;max-width:480px;height:auto;background:#000;border-radius:8px;border:4px solid #1b1d1c}
+.hb .m-screen figcaption{font-size:14px;color:var(--mut);margin-top:8px;max-width:480px}
+.hb .m-screen figcaption>b{font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink);margin-right:6px}
+.hb .m-legend{list-style:none;padding:0;margin:10px 0 0;font-size:14.5px}
+.hb .m-legend li{display:flex;gap:9px;align-items:flex-start;margin:0 0 7px;line-height:1.45}
+.hb .m-dot{flex:none;display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;font:700 11px/1 var(--f);font-style:normal;color:#111;background:var(--c);box-shadow:0 0 0 1px #00000059 inset;margin-top:1px}
+.hb .m-enccards{display:grid;gap:2px 24px;margin:10px 0 18px;border-top:1px solid var(--line);padding-top:8px}
+.hb .m-enccard{display:flex;gap:12px;align-items:flex-start;padding:8px 0}
+.hb .m-enccard>div{min-width:0}
+.hb .m-enccard b{font-size:17px}
+.hb .m-enccard small{display:block;font-size:13px;color:var(--mut);margin:1px 0 3px}
+.hb .m-enccard p{margin:0;font-size:15px;line-height:1.45}
+.hb .m-enccard .m-push{margin-top:4px;color:var(--mut)}
+.hb .m-enccard .m-push b{font-size:inherit}
+.hb .m-knobcap{width:46px;height:46px;flex:none}
+.hb .m-knobmini{width:16px;height:16px;flex:none}
+.hb .m-rnote{font-size:14px;color:var(--mut)}
+.hb .m-recipes{display:grid;gap:10px;margin-bottom:18px}
+.hb .m-recipe{background:#dfe2e4;border-radius:12px;padding:12px 14px}
+.hb .m-rname{display:flex;justify-content:space-between;align-items:baseline;gap:8px;margin-bottom:8px}
+.hb .m-rname span{font-size:12px;color:var(--mut);white-space:nowrap}
+.hb .m-rbar{display:grid;grid-template-columns:16px 1fr 38px;align-items:center;gap:7px;margin-bottom:5px}
+.hb .m-rbar span{height:7px;background:#c9cdd0;border-radius:4px;overflow:hidden}
+.hb .m-rbar em{display:block;height:100%;box-shadow:inset 0 0 0 1px #00000038}
+.hb .m-fill-b{background:var(--kb)}.hb .m-fill-g{background:var(--kg)}.hb .m-fill-w{background:var(--kw)}.hb .m-fill-o{background:var(--ko)}
+.hb .m-rbar small{font-size:12px;color:var(--mut);text-align:right}
+.hb .m-recipe p{margin:6px 0 0;font-size:14px;color:var(--mut);line-height:1.45}
+.hb .m-table{margin:6px 0 18px}
+.hb table,.hb tbody,.hb tr,.hb td{display:block;width:100%}
+.hb thead{display:none}
+.hb tr{padding:10px 0;border-top:1px solid var(--line)}
+.hb td{padding:2px 0;font-size:15px;line-height:1.5}
+.hb td:first-child{font-weight:600}
+.hb td:not(:first-child):not(:empty)::before{content:attr(data-label);display:block;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);margin:5px 0 1px;line-height:1.4}
+@media (min-width:700px){
+  .hb .m-enccards,.hb .m-recipes{grid-template-columns:1fr 1fr}
+  .hb .m-table{overflow-x:auto}
+  .hb table{display:table;border-collapse:collapse}.hb thead{display:table-header-group}.hb tbody{display:table-row-group}.hb tr{display:table-row;padding:0;border:0}
+  .hb th{text-align:left;font-size:11.5px;font-weight:600;letter-spacing:.05em;text-transform:uppercase;color:var(--mut);padding:0 12px 8px 0;border-bottom:1px solid var(--ink)}
+  .hb td{display:table-cell;width:auto;padding:9px 12px 9px 0;border-bottom:1px solid var(--line);vertical-align:top}
+  .hb td:not(:first-child):not(:empty)::before{content:none}
+}
 </style>
 </head>
 <body>
@@ -419,33 +500,75 @@ function render(){
        ["[seq] [lift] [drop] [scissors]","Sequenzer-Taste und die drei Tape-Edit-Tasten."],
        ["[REC] [PLAY] [STOP] [left] [right]","Transport und Pfeiltasten."],
        ["Soundtasten 1–8","Die acht kleinen Nummerntasten rechts von T4. Sie speichern und laden Sounds."]])+
+    `<h2>Aus dem Handbuch</h2>`+list([`<div class="li" role="button" tabindex="0" data-open="notation"><div class="tx"><b>Angaben lesen, ausführlich</b><span class="s">Tasten, Encoder und Schreibweisen mit den Bildern aus dem Handbuch</span></div><span class="go" aria-hidden="true">›</span></div>`])+
     `<h2>Überall gleich</h2>`+
     L([["[Shift]+[T1]","Synth- oder Drum-Typ wählen"],["[Shift]+[T3]","Effekt wählen"],["[Shift]+[T4]","LFO wählen"],["[Shift]+[seq]","Sequenzer wählen"],["[Shift]+[help]","Uhr oder Karte; von dort [T1] Monitor, [T3] Settings, [T4] Chord".replace(/\[(T\d)\]/g,"<kbd>$1</kbd>")]])+foot();
   }
   main.innerHTML=h;
 }
-function foot(){return `<p class="foot">Eigene deutsche Zusammenfassung zur hundekraft-Firmware 3.3.1 für die originale OP-1, keine vollständige Übersetzung. Reglernamen stehen wie auf dem Display. Ausführliche Texte und Bilder: <a href="${BASE}map">Original-Handbuch</a> des hundekraft-Projekts (GPL-3.0). Favoriten bleiben nur in diesem Browser gespeichert.</p>`}
-function detail(id){
-  const d=byId(id);if(!d)return;
-  recent=[id,...recent.filter(x=>x!==id)].slice(0,8);store.set("op1ref-recent",recent);
+function foot(){return `<p class="foot">Deutsche Kurzreferenz zur hundekraft-Firmware 3.3.1 für die originale OP-1. Reglernamen stehen wie auf dem Display. In jedem Eintrag lässt sich die ausführliche Anleitung zuschalten: der übersetzte Text samt Bildern aus dem <a href="${BASE}map">Original-Handbuch</a> des hundekraft-Projekts (GPL-3.0). Favoriten bleiben nur in diesem Browser gespeichert.</p>`}
+/* Ausführliche Anleitung: Texte liegen in anleitung.js und werden erst beim ersten Einschalten geladen. */
+const NOTATION={id:"notation",n:"Angaben lesen",t:"So sind Tasten, Encoder und Schreibweisen im Handbuch gemeint.",only:true};
+let long=store.get("op1ref-long",false),cur=null,trail=[],hbState=0,hbWait=[],anch=null,pendAt=null;
+/* Sprungmarken innerhalb der Abschnitte (Zwischenüberschriften) auf ihren Eintrag abbilden */
+function anchOf(t){if(!anch){anch={};for(const k in HB)(HB[k].match(/ id="[^"]+"/g)||[]).forEach(m=>{anch[m.slice(5,-1)]=k})}return anch[t]}
+function jumpTo(at){const el=at&&sheet.querySelector(".hb #"+CSS.escape(at));if(el)sheet.scrollTop+=el.getBoundingClientRect().top-70}
+function loadHB(cb){
+  if(window.HB)return cb(true);
+  hbWait.push(cb);if(hbState===1)return;hbState=1;
+  const s=document.createElement("script");s.src="anleitung.js?v=1";
+  const done=ok=>{hbState=0;if(!ok)s.remove();hbWait.splice(0).forEach(f=>f(ok))};
+  s.onload=()=>done(!!window.HB);s.onerror=()=>done(false);document.head.appendChild(s);
+}
+function fillHB(){
+  const el=sheet.querySelector(".hb");if(!el)return;const id=el.dataset.id;
+  el.innerHTML='<p class="hbmsg">Anleitung wird geladen …</p>';
+  loadHB(ok=>{
+    const box=sheet.querySelector(".hb");if(!box||box.dataset.id!==id)return;
+    const h=ok&&HB[id];
+    if(!h){box.innerHTML=`<p class="hbmsg">${ok?"Zu diesem Eintrag gibt es keinen ausführlichen Text.":"Die Anleitung ließ sich nicht laden. Prüfe die Verbindung und schalte sie noch einmal ein."}</p>`;return}
+    box.innerHTML=h;
+    box.querySelectorAll('a[href^="#"]').forEach(a=>{const t=a.getAttribute("href").slice(1);
+      if(byId(t)||HB[t])a.dataset.open=t;else if(anchOf(t)){a.dataset.open=anchOf(t);a.dataset.at=t}else{a.href=BASE+t;a.target="_blank";a.rel="noopener";a.classList.add("ext");a.title="Abschnitt im englischen Original"}});
+    if(pendAt){jumpTo(pendAt);pendAt=null}
+  });
+}
+function detail(id,back){
+  const d=byId(id)||(id==="notation"?NOTATION:null);if(!d)return;
+  if(!back&&cur&&cur!==id&&sheet.classList.contains("open"))trail.push(cur);
+  cur=id;
+  if(!d.only){recent=[id,...recent.filter(x=>x!==id)].slice(0,8);store.set("op1ref-recent",recent)}
   const cols=d.cols||[];
-  let h=`<div class="screen"><div class="bar"><button data-close aria-label="Zurück">‹ Zurück</button>${starBtn(id)}</div><span class="cat">${CAT[d.c]}</span><h3>${esc(d.n)}</h3><p>${esc(d.t)}</p><div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="det">`;
-  h+=`<h2>So kommst du hin</h2><div class="path">${fmt(d.o)}</div>`;
+  let h=`<div class="screen"><div class="bar"><button data-close aria-label="Zurück">‹ Zurück</button>${d.only?"":starBtn(id)}</div><span class="cat">${d.only?"Handbuch":CAT[d.c]}</span><h3>${esc(d.n)}</h3><p>${esc(d.t)}</p><div class="strip" aria-hidden="true"><i></i><i></i><i></i><i></i></div></div><div class="det">`;
+  if(!d.only)h+=`<h2>So kommst du hin</h2><div class="path">${fmt(d.o)}</div>`;
   if(d.e){h+=`<h2>Encoder</h2><div class="list">`+d.e.map((r,i)=>{const k="bgwo"[i];let p="";for(let j=1;j<r.length;j++){if(!r[j]||r[j]==="–")continue;p+=`<p>${cols.length>1?`<em>${esc(cols[j-1]||"")}</em>`:""}${fmt(r[j])}</p>`}
       return `<div class="er"><i class="knob big ${k}" role="img" aria-label="Encoder ${EN[k]}"></i><div class="b2"><div class="nm">${esc(r[0]||EN[k][0].toUpperCase()+EN[k].slice(1))}</div>${p}</div></div>`}).join("")+`</div>`}
   if(d.k)h+=`<h2>Tasten und Kürzel</h2><div class="list">${d.k.map(r=>`<div class="kr"><div class="c">${fmt(r[0])}</div><span class="d">${fmt(r[1])}</span></div>`).join("")}</div>`;
   if(d.x)h+=`<h2>Gut zu wissen</h2><div class="list"><ul class="n">${d.x.map(x=>`<li>${fmt(x)}</li>`).join("")}</ul></div>`;
-  h+=`<a class="orig" href="${BASE}${d.id==="install"?"quick-start":d.id}">Im Original nachlesen (englisch)</a></div>`;
+  if(!d.only)h+=`<button class="sw" role="switch" aria-checked="${long}" data-long><span>Ausführliche Anleitung<small>Der ganze Handbuchtext auf Deutsch, mit Bildern</small></span><i aria-hidden="true"></i></button>`;
+  if(long||d.only)h+=`<div class="hb" data-id="${id}"></div>`;
+  h+=`<p class="foot">Ausführlicher Text: deutsche Übersetzung aus dem <a href="${BASE}${id}" target="_blank" rel="noopener">Original-Handbuch</a> (englisch) des hundekraft-Projekts, GPL-3.0.</p></div>`;
   sheet.innerHTML=h;sheet.scrollTop=0;sheet.classList.add("open");sheet.setAttribute("aria-hidden","false");
+  fillHB();
 }
-function closeSheet(){sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");render()}
+function toggleLong(btn){
+  long=!long;store.set("op1ref-long",long);btn.setAttribute("aria-checked",long);
+  const old=sheet.querySelector(".hb");
+  if(!long){if(old)old.remove();return}
+  if(!old)btn.insertAdjacentHTML("afterend",`<div class="hb" data-id="${cur}"></div>`);
+  fillHB();
+}
+function closeSheet(){
+  if(trail.length){detail(trail.pop(),true);return}
+  cur=null;sheet.classList.remove("open");sheet.setAttribute("aria-hidden","true");render()}
 function toggleFav(id){fav.has(id)?fav.delete(id):fav.add(id);store.set("op1ref-fav",[...fav])}
 document.addEventListener("click",e=>{
   const f=e.target.closest("[data-fav]");if(f){e.stopPropagation();toggleFav(f.dataset.fav);const on=fav.has(f.dataset.fav);f.classList.toggle("on",on);f.setAttribute("aria-pressed",on);if(!sheet.classList.contains("open")&&tab==="favoriten"&&!q.value.trim())render();return}
   if(e.target.closest("[data-close]")){closeSheet();return}
-  const o=e.target.closest("[data-open]");if(o){detail(o.dataset.open);return}
+  const lg=e.target.closest("[data-long]");if(lg){toggleLong(lg);return}
+  const o=e.target.closest("[data-open]");if(o){e.preventDefault();const at=o.dataset.at||null;if(at&&o.dataset.open===cur){jumpTo(at);return}pendAt=at;detail(o.dataset.open);return}
   const c=e.target.closest("[data-cat]");if(c){cat=c.dataset.cat;render();return}
-  const t=e.target.closest("[data-tab]");if(t){tab=t.dataset.tab;q.value="";try{location.hash=tab}catch(_){}render();window.scrollTo(0,0);return}
+  const t=e.target.closest("[data-tab]");if(t){trail=[];tab=t.dataset.tab;q.value="";try{location.hash=tab}catch(_){}render();window.scrollTo(0,0);return}
 });
 document.addEventListener("keydown",e=>{if((e.key==="Enter"||e.key===" ")&&e.target.matches&&e.target.matches(".li[data-open]")){e.preventDefault();detail(e.target.dataset.open)}if(e.key==="Escape"&&sheet.classList.contains("open"))closeSheet()});
 q.addEventListener("input",()=>{render();window.scrollTo(0,0)});
