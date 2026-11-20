@@ -20,6 +20,10 @@ Die Kurzreferenz ist eine eigene, verdichtete Zusammenfassung. Die ausführliche
 
 Kein offizielles Produkt von Teenage Engineering oder des hundekraft-Projekts.
 
+## Texte ändern
+
+Die deutschen Abschnitte liegen einzeln in `tools/de/`. Nach einer Korrektur erzeugt `python3 tools/build.py .` die Datei `anleitung.js` neu; `python3 tools/check.py <id>` vergleicht die Struktur mit dem Original in `tools/src/`.
+
 ## Lizenz
 
 GPL-3.0-or-later, siehe `LICENSE`.
